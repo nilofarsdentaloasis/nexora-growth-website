@@ -136,13 +136,124 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // --- Category Carousel & Inside Field View Architecture ---
+  const carouselGrid = document.getElementById('category-fields-grid');
+  const carouselPrevBtn = document.getElementById('categoryCarouselPrev');
+  const carouselNextBtn = document.getElementById('categoryCarouselNext');
+  const carouselToggleBtn = document.getElementById('categoryCarouselToggle');
+
+  let selectedCategory = null;
+  let carouselTimer = null;
+  let isCarouselPaused = false;
+  let isInteracting = false;
+  let interactionResumeTimeout = null;
+  let hasDragged = false;
+  let isMouseDown = false;
+  let dragStartX = 0;
+  let dragScrollLeft = 0;
+
+  function getCardStep() {
+    if (!carouselGrid) return 320;
+    const card = carouselGrid.querySelector('.category-field-card');
+    if (!card) return 320;
+    return card.offsetWidth + 20; // card width + gap
+  }
+
+  function scrollCarouselNext() {
+    if (!carouselGrid) return;
+    const step = getCardStep();
+    const maxScroll = carouselGrid.scrollWidth - carouselGrid.clientWidth;
+    if (carouselGrid.scrollLeft >= maxScroll - 15) {
+      carouselGrid.scrollTo({ left: 0, behavior: 'smooth' });
+    } else {
+      carouselGrid.scrollBy({ left: step, behavior: 'smooth' });
+    }
+  }
+
+  function scrollCarouselPrev() {
+    if (!carouselGrid) return;
+    const step = getCardStep();
+    const maxScroll = carouselGrid.scrollWidth - carouselGrid.clientWidth;
+    if (carouselGrid.scrollLeft <= 15) {
+      carouselGrid.scrollTo({ left: maxScroll, behavior: 'smooth' });
+    } else {
+      carouselGrid.scrollBy({ left: -step, behavior: 'smooth' });
+    }
+  }
+
+  function startCarouselTimer() {
+    stopCarouselTimer();
+    if (isCarouselPaused) return;
+    carouselTimer = setInterval(() => {
+      if (!isInteracting && !isCarouselPaused && !selectedCategory) {
+        scrollCarouselNext();
+      }
+    }, 3000);
+  }
+
+  function stopCarouselTimer() {
+    if (carouselTimer) {
+      clearInterval(carouselTimer);
+      carouselTimer = null;
+    }
+  }
+
+  function pauseCarousel() {
+    isCarouselPaused = true;
+    updateToggleBtnUI();
+  }
+
+  function resumeCarousel() {
+    isCarouselPaused = false;
+    updateToggleBtnUI();
+    startCarouselTimer();
+  }
+
+  function updateToggleBtnUI() {
+    if (!carouselToggleBtn) return;
+    const pauseIcon = carouselToggleBtn.querySelector('.pause-icon');
+    const playIcon = carouselToggleBtn.querySelector('.play-icon');
+    if (isCarouselPaused) {
+      if (pauseIcon) pauseIcon.style.display = 'none';
+      if (playIcon) playIcon.style.display = 'block';
+      carouselToggleBtn.setAttribute('aria-label', 'Resume Auto-roll');
+      carouselToggleBtn.title = 'Resume Auto-roll';
+    } else {
+      if (pauseIcon) pauseIcon.style.display = 'block';
+      if (playIcon) playIcon.style.display = 'none';
+      carouselToggleBtn.setAttribute('aria-label', 'Pause Auto-roll');
+      carouselToggleBtn.title = 'Pause Auto-roll';
+    }
+  }
+
+  function tempPauseInteraction(duration = 4000) {
+    isInteracting = true;
+    if (interactionResumeTimeout) clearTimeout(interactionResumeTimeout);
+    interactionResumeTimeout = setTimeout(() => {
+      isInteracting = false;
+    }, duration);
+  }
+
   // --- Category Field Open & Switch Functions ---
   function openCategoryField(category, shouldScroll = true) {
     if (!categoryFieldsWrapper || !activeCategoryContainer) return;
 
-    // Switch view: hide 6 category fields, show active category view
-    categoryFieldsWrapper.style.display = 'none';
+    selectedCategory = category;
+
+    // Keep horizontal tiles visible, and open active category container directly below
+    categoryFieldsWrapper.style.display = 'block';
     activeCategoryContainer.style.display = 'block';
+
+    // Highlight selected card and center in carousel view
+    const cards = document.querySelectorAll('.category-field-card');
+    cards.forEach(card => {
+      const match = (card.getAttribute('data-category') || '').toLowerCase() === category.toLowerCase();
+      card.classList.toggle('active-selected', match);
+      card.setAttribute('aria-selected', match ? 'true' : 'false');
+      if (match) {
+        card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }
+    });
 
     // Update title, tag, and project count
     const meta = categoryMeta[category] || { title: category, count: '', tag: 'Field' };
@@ -163,27 +274,38 @@ document.addEventListener('DOMContentLoaded', () => {
     // Render projects for this category
     renderProjects(category);
 
-    // Smooth scroll to projects section
+    // Pause auto-roll while reviewing inside data
+    pauseCarousel();
+
+    // Smooth scroll directly to inside data below cards
     if (shouldScroll) {
-      const projectsSection = document.getElementById('projects');
-      if (projectsSection) {
-        const topOffset = projectsSection.getBoundingClientRect().top + window.pageYOffset - 80;
-        window.scrollTo({ top: topOffset, behavior: 'smooth' });
-      }
+      const topOffset = activeCategoryContainer.getBoundingClientRect().top + window.pageYOffset - 90;
+      window.scrollTo({ top: topOffset, behavior: 'smooth' });
     }
   }
 
   function closeCategoryField(shouldScroll = true) {
     if (!categoryFieldsWrapper || !activeCategoryContainer) return;
 
-    // Switch view: restore 6 category fields, hide active category container
-    categoryFieldsWrapper.style.display = 'block';
+    selectedCategory = null;
+
+    // Hide inside data view
     activeCategoryContainer.style.display = 'none';
 
+    // Remove active state from cards
+    const cards = document.querySelectorAll('.category-field-card');
+    cards.forEach(card => {
+      card.classList.remove('active-selected');
+      card.setAttribute('aria-selected', 'false');
+    });
+
+    // Resume auto-roll
+    resumeCarousel();
+
     if (shouldScroll) {
-      const projectsSection = document.getElementById('projects');
-      if (projectsSection) {
-        const topOffset = projectsSection.getBoundingClientRect().top + window.pageYOffset - 80;
+      const target = document.getElementById('category-fields-wrapper') || document.getElementById('projects');
+      if (target) {
+        const topOffset = target.getBoundingClientRect().top + window.pageYOffset - 80;
         window.scrollTo({ top: topOffset, behavior: 'smooth' });
       }
     }
@@ -193,7 +315,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const fieldCards = document.querySelectorAll('.category-field-card');
   fieldCards.forEach(card => {
     const category = card.getAttribute('data-category');
-    card.addEventListener('click', () => openCategoryField(category, true));
+    card.addEventListener('click', () => {
+      if (hasDragged) return; // Prevent selection if user was dragging
+      openCategoryField(category, true);
+    });
     card.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
@@ -202,7 +327,85 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Bind back button
+  // Carousel Controls & Interaction Listeners
+  if (carouselGrid) {
+    if (carouselPrevBtn) {
+      carouselPrevBtn.addEventListener('click', () => {
+        tempPauseInteraction(4500);
+        scrollCarouselPrev();
+      });
+    }
+
+    if (carouselNextBtn) {
+      carouselNextBtn.addEventListener('click', () => {
+        tempPauseInteraction(4500);
+        scrollCarouselNext();
+      });
+    }
+
+    if (carouselToggleBtn) {
+      carouselToggleBtn.addEventListener('click', () => {
+        if (isCarouselPaused) {
+          resumeCarousel();
+        } else {
+          pauseCarousel();
+        }
+      });
+    }
+
+    // Provision to stop auto-roll on hover
+    carouselGrid.addEventListener('mouseenter', () => {
+      isInteracting = true;
+    });
+
+    carouselGrid.addEventListener('mouseleave', () => {
+      if (!isMouseDown) {
+        tempPauseInteraction(1500);
+      }
+    });
+
+    // Provisions for mobile touch / swipe
+    carouselGrid.addEventListener('touchstart', () => {
+      isInteracting = true;
+    }, { passive: true });
+
+    carouselGrid.addEventListener('touchend', () => {
+      tempPauseInteraction(3000);
+    }, { passive: true });
+
+    // Drag-to-scroll provision for mouse
+    carouselGrid.addEventListener('mousedown', (e) => {
+      isMouseDown = true;
+      hasDragged = false;
+      isInteracting = true;
+      dragStartX = e.pageX - carouselGrid.offsetLeft;
+      dragScrollLeft = carouselGrid.scrollLeft;
+    });
+
+    window.addEventListener('mouseup', () => {
+      if (isMouseDown) {
+        isMouseDown = false;
+        setTimeout(() => { hasDragged = false; }, 80);
+        tempPauseInteraction(2000);
+      }
+    });
+
+    carouselGrid.addEventListener('mousemove', (e) => {
+      if (!isMouseDown) return;
+      e.preventDefault();
+      const x = e.pageX - carouselGrid.offsetLeft;
+      const walk = (x - dragStartX) * 1.35;
+      if (Math.abs(walk) > 6) {
+        hasDragged = true;
+      }
+      carouselGrid.scrollLeft = dragScrollLeft - walk;
+    });
+
+    // Start 3s auto-roll
+    startCarouselTimer();
+  }
+
+  // Bind close button
   if (backToFieldsBtn) {
     backToFieldsBtn.addEventListener('click', () => closeCategoryField(true));
   }
