@@ -120,18 +120,24 @@
         <!-- Stats strip -->
         <div class="hero-stats" id="heroStats" aria-label="Key stats">
           <div class="hero-stat">
-            <span class="hero-stat-number" data-target="50">0</span><span class="hero-stat-suffix">+</span>
+            <div class="hero-stat-value">
+              <span class="hero-stat-number" data-target="20">0</span><span class="hero-stat-suffix">+</span>
+            </div>
             <span class="hero-stat-label">Projects Delivered</span>
           </div>
           <div class="hero-stat-divider" aria-hidden="true"></div>
           <div class="hero-stat">
-            <span class="hero-stat-number" data-target="20">0</span><span class="hero-stat-suffix">+</span>
-            <span class="hero-stat-label">Happy Clients</span>
+            <div class="hero-stat-value">
+              <span class="hero-stat-number" data-target="98">0</span><span class="hero-stat-suffix">%+</span>
+            </div>
+            <span class="hero-stat-label">Client Satisfaction</span>
           </div>
           <div class="hero-stat-divider" aria-hidden="true"></div>
           <div class="hero-stat">
-            <span class="hero-stat-number" data-target="5">0</span><span class="hero-stat-suffix">+</span>
-            <span class="hero-stat-label">Years Experience</span>
+            <div class="hero-stat-value">
+              <span class="hero-stat-number" data-target="6">0</span><span class="hero-stat-suffix"></span>
+            </div>
+            <span class="hero-stat-label">Digital Disciplines</span>
           </div>
         </div>
       </div>
@@ -465,7 +471,7 @@
     <!-- About Us Section - Flow Step 4 -->
     <section class="section about-us" id="about">
       <div class="container">
-        <div class="section-title-wrapper">
+        <div class="section-title-wrapper about-reveal-header">
           <div class="section-subtitle-wrap">
             <div class="section-subtitle-single">
               <img src="https://cdn.prod.website-files.com/6877e02f5387b6bdd6d338ec/687810aa5293f9e8c955c26a_Section%20Subtitle%20Icon.svg" alt="Subtitle Icon" class="section-subtitle-icon">
@@ -479,7 +485,7 @@
         </div>
         
         <div class="about-us-content">
-          <div class="about-us-image-wrapper">
+          <div class="about-us-image-wrapper about-reveal-image">
             <img src="https://cdn.prod.website-files.com/6877e02f5387b6bdd6d338ec/6878121432484b77d15b7692_About%20Us%20Image.png" alt="Nexora Growth Team Innovation" class="about-us-image">
             <div class="image-overlay">
               <div class="image-overlay-left"></div>
@@ -487,50 +493,58 @@
             </div>
           </div>
           
-          <div class="about-us-typography">
-            <div class="about-us-top-grid">
-              <!-- Stat Card 1 -->
-              <div class="about-us-card">
+          <div class="about-us-typography about-reveal-body">
+            <div class="about-us-top-grid" id="aboutStatsGrid">
+              <!-- Stat Card 1: 20+ Projects -->
+              <div class="about-us-card" style="--card-index: 0">
                 <div class="about-us-card-icon-wrap">
                   <img src="https://cdn.prod.website-files.com/6877e02f5387b6bdd6d338ec/68781451c1b2ec734bdb1f89_About%20Us%20Card%20Icon1.svg" alt="Work Icon" class="about-us-card-icon">
                 </div>
                 <div class="summery-counter-wrap">
-                  <h3 class="number-digit" id="counter-1">18-20</h3>
+                  <h3 class="number-digit">
+                    <span class="about-counter-num" data-target="20">0</span><span class="about-counter-suffix">+</span>
+                  </h3>
                 </div>
                 <p class="about-us-card-description">Projects Delivered Successfully</p>
               </div>
               
-              <!-- Stat Card 2 -->
-              <div class="about-us-card">
+              <!-- Stat Card 2: 98%+ Satisfaction -->
+              <div class="about-us-card" style="--card-index: 1">
                 <div class="about-us-card-icon-wrap">
                   <img src="https://cdn.prod.website-files.com/6877e02f5387b6bdd6d338ec/6878145183772d0cdf6005e8_About%20Us%20Card%20Icon2.svg" alt="Experience Icon" class="about-us-card-icon">
                 </div>
                 <div class="summery-counter-wrap">
-                  <h3 class="number-digit" id="counter-2">98%+</h3>
+                  <h3 class="number-digit">
+                    <span class="about-counter-num" data-target="98">0</span><span class="about-counter-suffix">%+</span>
+                  </h3>
                 </div>
                 <p class="about-us-card-description">Customer Satisfaction Rate</p>
               </div>
               
-              <!-- Stat Card 3 -->
-              <div class="about-us-card">
+              <!-- Stat Card 3: 6 Disciplines -->
+              <div class="about-us-card" style="--card-index: 2">
                 <div class="about-us-card-icon-wrap">
                   <img src="https://cdn.prod.website-files.com/6877e02f5387b6bdd6d338ec/68781451e9e825ffe70ac4af_About%20Us%20Card%20Icon3.svg" alt="Award Icon" class="about-us-card-icon">
                 </div>
                 <div class="summery-counter-wrap">
-                  <h3 class="number-digit" id="counter-3">6</h3>
+                  <h3 class="number-digit">
+                    <span class="about-counter-num" data-target="6">0</span><span class="about-counter-suffix"></span>
+                  </h3>
                 </div>
                 <p class="about-us-card-description">Specialized Digital Disciplines</p>
               </div>
               
-              <!-- Stat Card 4 -->
-              <div class="about-us-card">
+              <!-- Stat Card 4: 24/7 Founder Support -->
+              <div class="about-us-card" style="--card-index: 3">
                 <div class="about-us-card-icon-wrap">
                   <img src="https://cdn.prod.website-files.com/6877e02f5387b6bdd6d338ec/68781451954bf1b86c600b25_About%20Us%20Card%20Icon4.svg" alt="Clients Icon" class="about-us-card-icon">
                 </div>
                 <div class="summery-counter-wrap">
-                  <h3 class="number-digit" id="counter-4">24/7</h3>
+                  <h3 class="number-digit">
+                    <span class="about-counter-num" data-target="24">0</span><span class="about-counter-suffix">/7</span>
+                  </h3>
                 </div>
-                <p class="about-us-card-description">Direct Founder Communication &amp; Support</p>
+                <p class="about-us-card-description">Direct Founder Support &amp; Comms</p>
               </div>
             </div>
             

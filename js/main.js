@@ -906,6 +906,55 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: true });
   }
 
+  // ── 5. About Nexora Growth: Scroll Reveal & Counter Animation ──
+  function initAboutAnimations() {
+    const aboutSection = document.getElementById('about');
+    if (!aboutSection) return;
+
+    const counterElements = aboutSection.querySelectorAll('.about-counter-num');
+    let hasAnimated = false;
+
+    function animateAboutCounters() {
+      counterElements.forEach(el => {
+        const target = parseInt(el.getAttribute('data-target'), 10);
+        if (isNaN(target)) return;
+
+        const duration = 1400;
+        const steps = 40;
+        const increment = target / steps;
+        let current = 0;
+        let step = 0;
+
+        const timer = setInterval(() => {
+          step++;
+          current = Math.min(Math.round(increment * step), target);
+          el.textContent = current;
+          if (step >= steps) {
+            el.textContent = target;
+            clearInterval(timer);
+          }
+        }, duration / steps);
+      });
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !hasAnimated) {
+          hasAnimated = true;
+          aboutSection.classList.add('in-view');
+          animateAboutCounters();
+          observer.disconnect();
+        }
+      });
+    }, {
+      threshold: 0.15,
+      rootMargin: '0px 0px -40px 0px'
+    });
+
+    observer.observe(aboutSection);
+  }
+
   initHero();
+  initAboutAnimations();
 });
 
