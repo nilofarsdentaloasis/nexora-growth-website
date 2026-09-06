@@ -3969,7 +3969,7 @@ button, input, textarea {
   .scroll-hero-sticky {
     height: 100vh !important;
     min-height: 520px !important;
-    padding-top: 72px !important;
+    padding-top: 14px !important;
     padding-bottom: 70px !important; /* keep clear of SCROLL hint */
   }
 
