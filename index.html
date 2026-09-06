@@ -58,73 +58,95 @@
       </div>
     </header>
 
-    <!-- Pinned Interactive Scroll Hero Section -->
-    <section class="scroll-hero-stage" id="home">
-      <div class="scroll-hero-sticky">
-        <!-- Logo above the animation, mobile-visible -->
-        <div class="scroll-hero-logo-wrap" id="scrollHeroLogoWrap">
-          <img src="images/logo-transparent.png" alt="Nexora Growth" class="scroll-hero-logo-img">
+    <!-- ═══════════════════════════════════════════
+         HERO SECTION — Dark Cinematic
+    ════════════════════════════════════════════ -->
+    <section class="hero" id="home" aria-label="Hero">
+
+      <!-- Animated background layers -->
+      <div class="hero-bg" aria-hidden="true">
+        <div class="hero-bg-orb hero-bg-orb--1"></div>
+        <div class="hero-bg-orb hero-bg-orb--2"></div>
+        <div class="hero-bg-orb hero-bg-orb--3"></div>
+        <div class="hero-bg-grid"></div>
+        <div class="hero-bg-noise"></div>
+      </div>
+
+      <!-- Main content -->
+      <div class="hero-content" id="heroContent">
+
+        <!-- Logo: mobile only -->
+        <div class="hero-logo-wrap" aria-hidden="true">
+          <img src="images/logo-transparent.png"
+               alt="Nexora Growth"
+               class="hero-logo-img"
+               draggable="false">
         </div>
 
-        <div class="scroll-hero-row" id="scrollHeroRow">
-          <span class="scroll-hero-word scroll-hero-lead" id="scrollHeroLead">Growth</span>
-
-          <span class="scroll-hero-icon-wrap" id="scrollHeroIconWrap">
-            <span class="scroll-hero-pill" id="scrollHeroPill">
-              <svg class="scroll-hero-asterisk" id="scrollHeroAsterisk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
-                <line x1="12" y1="2"  x2="12" y2="22"/>
-                <line x1="4.5" y1="6" x2="19.5" y2="18"/>
-                <line x1="19.5" y1="6" x2="4.5" y2="18"/>
-              </svg>
-            </span>
-          </span>
-
-          <span class="scroll-hero-word scroll-hero-wipe" id="scrollHeroWipe">
-            that matters
-            <span class="scroll-hero-fill" id="scrollHeroFill">that matters</span>
-          </span>
+        <!-- Badge pill -->
+        <div class="hero-badge" id="heroBadge">
+          <span class="hero-badge-dot"></span>
+          <span>NEXORA GROWTH</span>
         </div>
 
-        <div class="scroll-hero-hint" id="scrollHeroHint">
-          <svg class="scroll-hero-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="6 9 12 15 18 9"/>
-          </svg>
+        <!-- Headline — each word is individually animated -->
+        <h1 class="hero-headline" id="heroHeadline" aria-label="Building Digital Experiences That Grow Businesses">
+          <span class="hero-word" style="--i:0">Building</span>
+          <span class="hero-word" style="--i:1">Digital</span>
+          <span class="hero-word" style="--i:2">Experiences</span>
+          <br class="hero-headline-break">
+          <span class="hero-word" style="--i:3">That</span>
+          <span class="hero-word hero-word--accent" style="--i:4">Grow</span>
+          <span class="hero-word hero-word--accent" style="--i:5">Businesses</span>
+        </h1>
+
+        <!-- Subtext -->
+        <p class="hero-subtext" id="heroSubtext">
+          We build modern websites, custom software, AI-powered solutions
+          and creative digital experiences that help businesses grow.
+        </p>
+
+        <!-- CTA Buttons -->
+        <div class="hero-buttons" id="heroButtons">
+          <a href="#projects" class="hero-btn hero-btn--primary" id="heroBtnPrimary">
+            <span>Explore Our Work</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/>
+            </svg>
+          </a>
+          <a href="#contact" class="hero-btn hero-btn--ghost" id="heroBtnGhost">
+            <span>Let's Talk</span>
+          </a>
+        </div>
+
+        <!-- Stats strip -->
+        <div class="hero-stats" id="heroStats" aria-label="Key stats">
+          <div class="hero-stat">
+            <span class="hero-stat-number" data-target="50">0</span><span class="hero-stat-suffix">+</span>
+            <span class="hero-stat-label">Projects Delivered</span>
+          </div>
+          <div class="hero-stat-divider" aria-hidden="true"></div>
+          <div class="hero-stat">
+            <span class="hero-stat-number" data-target="20">0</span><span class="hero-stat-suffix">+</span>
+            <span class="hero-stat-label">Happy Clients</span>
+          </div>
+          <div class="hero-stat-divider" aria-hidden="true"></div>
+          <div class="hero-stat">
+            <span class="hero-stat-number" data-target="5">0</span><span class="hero-stat-suffix">+</span>
+            <span class="hero-stat-label">Years Experience</span>
+          </div>
         </div>
       </div>
+
+      <!-- Scroll indicator -->
+      <div class="hero-scroll-hint" id="heroScrollHint" aria-hidden="true">
+        <span class="hero-scroll-line"></span>
+        <span class="hero-scroll-label">SCROLL</span>
+      </div>
+
     </section>
 
-    <!-- Hero Details Section (Placed Below Scroll Animation - Center Aligned & Black Text) -->
-    <section class="section hero-details-section" id="overview">
-      <div class="container">
-        <div class="hero-details-content">
-          <div class="banner-subtitle-wrapper">
-            <div class="banner-subtitle">NEXORA GROWTH</div>
-          </div>
-          <h1 class="hero-details-title">Building Digital Experiences That Grow Businesses</h1>
-          <p class="hero-details-description">
-            We build modern websites, custom software, AI-powered solutions and creative digital experiences that help businesses grow.
-          </p>
-          <div class="hero-details-button-wrapper">
-            <a href="#projects" class="primary-button">
-              <div class="primary-button-inner">
-                <div class="primary-button-text-wrap">
-                  <span class="primary-button-text-block">Explore Our Work</span>
-                  <span class="primary-button-text-block is-text-absolute">Explore Our Work</span>
-                </div>
-              </div>
-            </a>
-            <a href="#contact" class="banner-video-button">
-              <div class="banner-video-button-wrap">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
-                </svg>
-              </div>
-              <div class="banner-video-button-text">Let's Talk</div>
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
+
 
     <!-- Company Capabilities & Tech Ticker Section -->
     <section class="company-section">

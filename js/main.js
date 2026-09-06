@@ -803,143 +803,110 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // ---- Pinned Interactive Scroll Hero (Growth that matters) ----
-  function initScrollHero() {
-    const stage    = document.getElementById('scrollHeroStage') || document.getElementById('home');
-    const row      = document.getElementById('scrollHeroRow');
-    const lead     = document.getElementById('scrollHeroLead');
-    const wipe     = document.getElementById('scrollHeroWipe');
-    const fill     = document.getElementById('scrollHeroFill');
-    const pill     = document.getElementById('scrollHeroPill');
-    const asterisk = document.getElementById('scrollHeroAsterisk');
-    const hint     = document.getElementById('scrollHeroHint');
+  // ---- Hero Section — Cinematic Entrance + Scroll Parallax ----
+  function initHero() {
+    const hero        = document.querySelector('.hero');
+    const content     = document.getElementById('heroContent');
+    const badge       = document.getElementById('heroBadge');
+    const headline    = document.getElementById('heroHeadline');
+    const words       = headline ? headline.querySelectorAll('.hero-word') : [];
+    const subtext     = document.getElementById('heroSubtext');
+    const buttons     = document.getElementById('heroButtons');
+    const stats       = document.getElementById('heroStats');
+    const scrollHint  = document.getElementById('heroScrollHint');
+    const logoWrap    = document.querySelector('.hero-logo-wrap');
 
-    if (!stage || !row || !fill || !pill || !asterisk || !wipe) return;
+    if (!hero) return;
 
-    const clamp = (v, min, max) => Math.min(Math.max(v, min), max);
-    const smooth = (a, b, x) => { const t = clamp((x - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); };
-    const lerp = (a, b, t) => a + (b - a) * t;
-
-    let baseWidth = 0;
-    let wipeNaturalWidth = 0;
-
-    function measure() {
-      pill.style.width = '';
-      const circleSize = pill.getBoundingClientRect().height;
-      baseWidth = circleSize * 3.2;
-
-      // Measure natural width of "that matters"
-      wipe.style.maxWidth = 'none';
-      wipeNaturalWidth = wipe.scrollWidth || 180;
-
-      onScroll();
+    // ── 1. Entrance animations (triggered shortly after load) ──
+    function playEntrance() {
+      // Logo (mobile)
+      if (logoWrap) {
+        setTimeout(() => logoWrap.classList.add('hero-animated'), 80);
+      }
+      // Badge
+      if (badge) {
+        setTimeout(() => badge.classList.add('hero-animated'), 120);
+      }
+      // Words (staggered via CSS custom property --i)
+      words.forEach(w => {
+        setTimeout(() => w.classList.add('hero-animated'), 80);
+      });
+      // Subtext
+      if (subtext) setTimeout(() => subtext.classList.add('hero-animated'), 80);
+      // Buttons
+      if (buttons) setTimeout(() => buttons.classList.add('hero-animated'), 80);
+      // Stats
+      if (stats)   setTimeout(() => stats.classList.add('hero-animated'), 80);
+      // Scroll hint
+      if (scrollHint) setTimeout(() => scrollHint.classList.add('hero-animated'), 80);
     }
 
-    function getCurrentProgress() {
-      const rect = stage.getBoundingClientRect();
-      const total = stage.offsetHeight - window.innerHeight;
-      const scrolled = -rect.top;
-      return clamp(total > 0 ? scrolled / total : 0, 0, 1);
+    playEntrance();
+
+    // ── 2. Stat count-up ──
+    function countUp(el) {
+      const target = parseInt(el.getAttribute('data-target'), 10);
+      if (isNaN(target)) return;
+      const duration = 1200;
+      const steps = 40;
+      const increment = target / steps;
+      let current = 0;
+      let step = 0;
+      const timer = setInterval(() => {
+        step++;
+        current = Math.min(Math.round(increment * step), target);
+        el.textContent = current;
+        if (step >= steps) clearInterval(timer);
+      }, duration / steps);
     }
 
-    function update(p) {
-      const isMobile = window.innerWidth <= 767;
+    const statNumbers = document.querySelectorAll('.hero-stat-number');
+    let statsCounted = false;
 
-      if (isMobile) {
-        // --- Mobile: Paced comfortably so the scroll animation feels smooth and unhurried ---
-        const entryT = smooth(0.04, 0.52, p);
-        const textT  = smooth(0.12, 0.58, p);
-
-        // "that matters" enters gracefully and finishes by p = 0.58
-        wipe.style.opacity = entryT;
-        wipe.style.transform = `translateY(${(1 - entryT) * 16}px)`;
-        wipe.style.maxWidth = entryT >= 0.52 ? 'none' : `${entryT * wipeNaturalWidth}px`;
-        fill.style.width = (textT * 100) + '%';
-        row.style.transform = 'none';
-
-        // Pill & Asterisk complete their rotation and morph smoothly
-        const morphT = smooth(0.04, 0.44, p);
-        const circleSize = pill.getBoundingClientRect().height;
-        const width = lerp(baseWidth, circleSize, morphT);
-        pill.style.width = width + 'px';
-
-        const bgT = smooth(0.16, 0.48, p);
-        if (bgT > 0) {
-          if (window.CSS && CSS.supports && CSS.supports('color', 'color-mix(in srgb, black, white)')) {
-            pill.style.backgroundColor = `color-mix(in srgb, #0f172a ${bgT * 100}%, #f1f2f6)`;
-          } else {
-            pill.style.backgroundColor = bgT > 0.5 ? '#0f172a' : '#f1f2f6';
-          }
-        } else {
-          pill.style.backgroundColor = '#f1f2f6';
+    const statsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !statsCounted) {
+          statsCounted = true;
+          statNumbers.forEach(el => countUp(el));
+          statsObserver.disconnect();
         }
+      });
+    }, { threshold: 0.4 });
 
-        asterisk.style.color = bgT > 0.5 ? '#ffffff' : '#0f172a';
-        asterisk.style.transform = `rotate(${Math.min(p / 0.58, 1) * 360}deg)`;
+    if (stats) statsObserver.observe(stats);
 
-        // Fade scroll hint once scrolling starts
-        if (hint) {
-          hint.style.opacity = p < 0.05 ? '1' : '0';
-        }
-      } else {
-        // Desktop view: natural flow with smooth text wipe
-        row.style.transform = 'none';
-        wipe.style.opacity = '1';
-        wipe.style.transform = 'none';
-        wipe.style.maxWidth = 'none';
+    // ── 3. Scroll-driven parallax + scroll hint fade ──
+    let ticking = false;
 
-        const textT = smooth(0.12, 0.45, p);
-        fill.style.width = (textT * 100) + '%';
+    function onHeroScroll() {
+      if (!hero || !content) return;
+      const heroH = hero.offsetHeight;
+      const scrolled = window.scrollY;
+      const progress = Math.min(scrolled / heroH, 1);
 
-        // Desktop pill morphing & 540deg rotation
-        const morphT   = smooth(0.05, 0.34, p);
-        const holdT    = smooth(0.34, 0.62, p);
-        const reopenT  = smooth(0.78, 1.00, p);
+      // Parallax: content drifts up gently
+      const drift = progress * heroH * 0.22;
+      content.style.transform = `translateY(-${drift}px)`;
+      content.style.opacity = `${1 - progress * 1.4}`;
 
-        const circleSize = pill.getBoundingClientRect().height;
-        const width = lerp(baseWidth, circleSize, morphT) * (1 - reopenT) + baseWidth * reopenT;
-        pill.style.width = width + 'px';
-
-        const bgT = clamp(holdT - reopenT, 0, 1);
-        if (bgT > 0) {
-          if (window.CSS && CSS.supports && CSS.supports('color', 'color-mix(in srgb, black, white)')) {
-            pill.style.backgroundColor = `color-mix(in srgb, #0f172a ${bgT * 100}%, #f1f2f6)`;
-          } else {
-            pill.style.backgroundColor = bgT > 0.5 ? '#0f172a' : '#f1f2f6';
-          }
-        } else {
-          pill.style.backgroundColor = '#f1f2f6';
-        }
-
-        asterisk.style.color = bgT > 0.5 ? '#ffffff' : '#0f172a';
-        asterisk.style.transform = `rotate(${p * 540}deg) scale(${1 + morphT * 0.15})`;
-
-        if (hint) {
-          hint.style.opacity = p < 0.05 ? '1' : '0';
-        }
+      // Fade hint when scrolling starts
+      if (scrollHint) {
+        scrollHint.style.opacity = progress > 0.04 ? '0' : '1';
       }
     }
 
-    function onScroll() {
-      update(getCurrentProgress());
-    }
-
-    let ticking = false;
     window.addEventListener('scroll', () => {
       if (!ticking) {
         requestAnimationFrame(() => {
-          onScroll();
+          onHeroScroll();
           ticking = false;
         });
         ticking = true;
       }
     }, { passive: true });
-
-    window.addEventListener('resize', measure);
-    window.addEventListener('load', measure);
-    measure();
   }
 
-  initScrollHero();
+  initHero();
 });
 
