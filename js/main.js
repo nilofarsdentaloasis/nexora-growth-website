@@ -450,6 +450,162 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // ---- 1. Live Client Websites Horizontal Slider ----
+  function initLiveSitesSlider() {
+    const track = document.getElementById('liveSitesTrack');
+    const prevBtn = document.getElementById('liveSitesPrev');
+    const nextBtn = document.getElementById('liveSitesNext');
+    const dotsContainer = document.getElementById('liveSitesDots');
+    if (!track) return;
+
+    const cards = track.querySelectorAll('.live-site-card');
+    if (cards.length === 0) return;
+
+    // Create dots
+    if (dotsContainer) {
+      dotsContainer.innerHTML = '';
+      cards.forEach((_, idx) => {
+        const dot = document.createElement('button');
+        dot.className = `live-dot ${idx === 0 ? 'active' : ''}`;
+        dot.setAttribute('aria-label', `Go to slide ${idx + 1}`);
+        dot.addEventListener('click', () => {
+          const cardWidth = cards[0].offsetWidth + 20;
+          track.scrollTo({ left: idx * cardWidth, behavior: 'smooth' });
+        });
+        dotsContainer.appendChild(dot);
+      });
+    }
+
+    function updateDots() {
+      if (!dotsContainer) return;
+      const cardWidth = cards[0].offsetWidth + 20;
+      const activeIdx = Math.round(track.scrollLeft / cardWidth);
+      const dots = dotsContainer.querySelectorAll('.live-dot');
+      dots.forEach((d, idx) => d.classList.toggle('active', idx === activeIdx));
+    }
+
+    track.addEventListener('scroll', updateDots, { passive: true });
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', () => {
+        const cardWidth = cards[0].offsetWidth + 20;
+        track.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => {
+        const cardWidth = cards[0].offsetWidth + 20;
+        if (track.scrollLeft + track.clientWidth >= track.scrollWidth - 10) {
+          track.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          track.scrollBy({ left: cardWidth, behavior: 'smooth' });
+        }
+      });
+    }
+  }
+  initLiveSitesSlider();
+
+  // ---- 2. Portfolio Projects Horizontal Slider ----
+  function initPortfolioSlider() {
+    const track = document.getElementById('portfolio-projects-grid');
+    const prevBtn = document.getElementById('portfolioSliderPrev');
+    const nextBtn = document.getElementById('portfolioSliderNext');
+    if (!track) return;
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', () => {
+        const firstCard = track.querySelector('.portfolio-card-single');
+        const step = firstCard ? firstCard.offsetWidth + 24 : 360;
+        track.scrollBy({ left: -step, behavior: 'smooth' });
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => {
+        const firstCard = track.querySelector('.portfolio-card-single');
+        const step = firstCard ? firstCard.offsetWidth + 24 : 360;
+        if (track.scrollLeft + track.clientWidth >= track.scrollWidth - 15) {
+          track.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          track.scrollBy({ left: step, behavior: 'smooth' });
+        }
+      });
+    }
+  }
+  initPortfolioSlider();
+
+  // ---- 3. Why Nexora Growth Horizontal Carousel ----
+  function initWhyUsSlider() {
+    const track = document.getElementById('whyUsTrack');
+    const prevBtn = document.getElementById('whyUsPrev');
+    const nextBtn = document.getElementById('whyUsNext');
+    const counterCurrent = document.getElementById('whyUsCounterCurrent');
+    const progressFill = document.getElementById('whyUsProgressFill');
+    const dotsContainer = document.getElementById('whyUsDots');
+    if (!track) return;
+
+    const cards = track.querySelectorAll('.why-us-card');
+    const total = cards.length;
+    if (total === 0) return;
+
+    // Create dots
+    if (dotsContainer) {
+      dotsContainer.innerHTML = '';
+      cards.forEach((_, idx) => {
+        const dot = document.createElement('button');
+        dot.className = `why-us-dot ${idx === 0 ? 'active' : ''}`;
+        dot.setAttribute('aria-label', `Go to pillar ${idx + 1}`);
+        dot.addEventListener('click', () => {
+          const cardWidth = cards[0].offsetWidth + 24;
+          track.scrollTo({ left: idx * cardWidth, behavior: 'smooth' });
+        });
+        dotsContainer.appendChild(dot);
+      });
+    }
+
+    function updateCarouselState() {
+      const cardWidth = cards[0].offsetWidth + 24;
+      const activeIdx = Math.min(Math.max(Math.round(track.scrollLeft / cardWidth), 0), total - 1);
+      
+      if (counterCurrent) {
+        counterCurrent.textContent = String(activeIdx + 1).padStart(2, '0');
+      }
+
+      if (progressFill) {
+        progressFill.style.width = `${((activeIdx + 1) / total) * 100}%`;
+      }
+
+      if (dotsContainer) {
+        const dots = dotsContainer.querySelectorAll('.why-us-dot');
+        dots.forEach((d, idx) => d.classList.toggle('active', idx === activeIdx));
+      }
+
+      cards.forEach((card, idx) => card.classList.toggle('active', idx === activeIdx));
+    }
+
+    track.addEventListener('scroll', updateCarouselState, { passive: true });
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', () => {
+        const cardWidth = cards[0].offsetWidth + 24;
+        track.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => {
+        const cardWidth = cards[0].offsetWidth + 24;
+        if (track.scrollLeft + track.clientWidth >= track.scrollWidth - 15) {
+          track.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          track.scrollBy({ left: cardWidth, behavior: 'smooth' });
+        }
+      });
+    }
+  }
+  initWhyUsSlider();
+
   // --- Project Modal Logic ---
   function openProjectModal(projectId) {
     if (!window.NEXORA_PROJECTS) return;

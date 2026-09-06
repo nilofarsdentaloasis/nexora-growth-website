@@ -349,61 +349,102 @@
           </p>
         </div>
         
-        <!-- Dedicated Live Client Websites Quick-Access Showcase -->
+        <!-- Dedicated Live Client Websites Quick-Access Showcase (Horizontal Interactive Slider) -->
         <div class="live-sites-showcase-container" id="live-client-websites">
           <div class="live-sites-top-bar">
-            <div class="live-sites-indicator">
-              <span class="live-pulse-dot"></span>
-              <span class="live-indicator-text">Live Deployed Client Websites</span>
+            <div class="live-sites-indicator-wrap">
+              <div class="live-sites-indicator">
+                <span class="live-pulse-dot"></span>
+                <span class="live-indicator-text">Live Deployed Client Websites</span>
+              </div>
+              <span class="live-sites-hint">Swipe or slide to explore live projects:</span>
             </div>
-            <div class="live-sites-hint">Click any website below to directly open and experience the live project:</div>
+            <!-- Slider Controls -->
+            <div class="live-sites-controls">
+              <button class="live-slider-btn" id="liveSitesPrev" type="button" aria-label="Previous live site">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+              </button>
+              <button class="live-slider-btn" id="liveSitesNext" type="button" aria-label="Next live site">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+              </button>
+            </div>
           </div>
-          <div class="live-sites-grid">
-            <!-- Live Site 1: Auto Care -->
-            <a href="https://www.wecareautorepairs.in" target="_blank" rel="noopener noreferrer" class="live-site-card" aria-label="Visit We Care Auto Repair live website">
-              <div class="live-site-card-header">
-                <span class="live-site-tag">Auto Care Field</span>
-                <span class="live-site-arrow">↗</span>
-              </div>
-              <h3 class="live-site-name">We Care Auto Repair</h3>
-              <div class="live-site-url">www.wecareautorepair.in</div>
-              <p class="live-site-desc">Automotive servicing, vehicle inspection, mechanical repairs, and online workshop slot booking.</p>
-              <div class="live-site-cta">
-                <span>Visit Live Website</span>
-                <span class="live-site-cta-arrow">↗</span>
-              </div>
-            </a>
 
-            <!-- Live Site 2: Medical & Dental -->
-            <a href="https://www.nilofarsdentaloasis.com" target="_blank" rel="noopener noreferrer" class="live-site-card" aria-label="Visit Nilofar's Dental Oasis live website">
-              <div class="live-site-card-header">
-                <span class="live-site-tag">Medical Field</span>
-                <span class="live-site-arrow">↗</span>
-              </div>
-              <h3 class="live-site-name">Nilofar's Dental Oasis</h3>
-              <div class="live-site-url">www.nilofarsdentaloasis.com</div>
-              <p class="live-site-desc">Advanced dental clinic, painless procedures, doctor profiles, and online patient appointment scheduling.</p>
-              <div class="live-site-cta">
-                <span>Visit Live Website</span>
-                <span class="live-site-cta-arrow">↗</span>
-              </div>
-            </a>
+          <div class="live-sites-slider-wrap">
+            <div class="live-sites-track" id="liveSitesTrack">
+              <!-- Live Site 1: Auto Care -->
+              <a href="https://www.wecareautorepairs.in" target="_blank" rel="noopener noreferrer" class="live-site-card" aria-label="Visit We Care Auto Repair live website">
+                <div class="live-site-card-header">
+                  <div class="live-site-badge-group">
+                    <span class="live-site-num">01</span>
+                    <span class="live-site-tag">Auto Care Field</span>
+                  </div>
+                  <span class="live-site-arrow">↗</span>
+                </div>
+                <h3 class="live-site-name">We Care Auto Repair</h3>
+                <div class="live-site-url">www.wecareautorepairs.in</div>
+                <p class="live-site-desc">Automotive servicing, multi-point vehicle inspection, mechanical repairs, and online workshop booking system.</p>
+                <div class="live-site-features">
+                  <span>Slot Booking</span>
+                  <span>Inspection ERP</span>
+                  <span>SEO Optimized</span>
+                </div>
+                <div class="live-site-cta">
+                  <span>Launch Live Website</span>
+                  <span class="live-site-cta-arrow">↗</span>
+                </div>
+              </a>
 
-            <!-- Live Site 3: Cab Services -->
-            <a href="https://www.moryacabservices.co.in" target="_blank" rel="noopener noreferrer" class="live-site-card" aria-label="Visit Morya Cab Services live website">
-              <div class="live-site-card-header">
-                <span class="live-site-tag">Cab &amp; Travel</span>
-                <span class="live-site-arrow">↗</span>
-              </div>
-              <h3 class="live-site-name">Morya Cab Services</h3>
-              <div class="live-site-url">www.moryacabservices.co.in</div>
-              <p class="live-site-desc">Outstation cab bookings, airport taxi transfers, local city car rentals, and instant WhatsApp booking.</p>
-              <div class="live-site-cta">
-                <span>Visit Live Website</span>
-                <span class="live-site-cta-arrow">↗</span>
-              </div>
-            </a>
+              <!-- Live Site 2: Medical & Dental -->
+              <a href="https://www.nilofarsdentaloasis.com" target="_blank" rel="noopener noreferrer" class="live-site-card" aria-label="Visit Nilofar's Dental Oasis live website">
+                <div class="live-site-card-header">
+                  <div class="live-site-badge-group">
+                    <span class="live-site-num">02</span>
+                    <span class="live-site-tag">Medical Field</span>
+                  </div>
+                  <span class="live-site-arrow">↗</span>
+                </div>
+                <h3 class="live-site-name">Nilofar's Dental Oasis</h3>
+                <div class="live-site-url">www.nilofarsdentaloasis.com</div>
+                <p class="live-site-desc">Advanced dental clinic, painless procedures, doctor profiles, and online patient appointment scheduling portal.</p>
+                <div class="live-site-features">
+                  <span>Patient Booking</span>
+                  <span>Doctor Profiles</span>
+                  <span>Treatment Guide</span>
+                </div>
+                <div class="live-site-cta">
+                  <span>Launch Live Website</span>
+                  <span class="live-site-cta-arrow">↗</span>
+                </div>
+              </a>
+
+              <!-- Live Site 3: Cab Services -->
+              <a href="https://www.moryacabservices.co.in" target="_blank" rel="noopener noreferrer" class="live-site-card" aria-label="Visit Morya Cab Services live website">
+                <div class="live-site-card-header">
+                  <div class="live-site-badge-group">
+                    <span class="live-site-num">03</span>
+                    <span class="live-site-tag">Cab &amp; Travel</span>
+                  </div>
+                  <span class="live-site-arrow">↗</span>
+                </div>
+                <h3 class="live-site-name">Morya Cab Services</h3>
+                <div class="live-site-url">www.moryacabservices.co.in</div>
+                <p class="live-site-desc">Outstation cab bookings, airport taxi transfers, local city car rentals, and instant WhatsApp booking integration.</p>
+                <div class="live-site-features">
+                  <span>WhatsApp Booking</span>
+                  <span>Fare Calculator</span>
+                  <span>24/7 Fleet</span>
+                </div>
+                <div class="live-site-cta">
+                  <span>Launch Live Website</span>
+                  <span class="live-site-cta-arrow">↗</span>
+                </div>
+              </a>
+            </div>
           </div>
+
+          <!-- Pagination dots -->
+          <div class="live-sites-dots" id="liveSitesDots"></div>
         </div>
 
         <!-- 6 Core Category Fields Section -->
@@ -618,9 +659,17 @@
             </div>
           </div>
 
-          <!-- Centralized Data-Driven Projects Grid -->
-          <div class="portfolio-grid" id="portfolio-projects-grid">
-            <!-- Populated dynamically via js/main.js from js/projects-data.js -->
+          <!-- Centralized Data-Driven Projects Slider (Horizontal Track) -->
+          <div class="portfolio-slider-wrap">
+            <button class="portfolio-slider-btn portfolio-slider-btn--prev" id="portfolioSliderPrev" type="button" aria-label="Previous project">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+            </button>
+            <div class="portfolio-grid portfolio-slider-track" id="portfolio-projects-grid">
+              <!-- Populated dynamically via js/main.js from js/projects-data.js -->
+            </div>
+            <button class="portfolio-slider-btn portfolio-slider-btn--next" id="portfolioSliderNext" type="button" aria-label="Next project">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+            </button>
           </div>
         </div>
       </div>
@@ -722,86 +771,141 @@
       </div>
     </section>
 
-    <!-- Why Nexora Growth Section - Flow Step 5 -->
+    <!-- Why Nexora Growth Section - Flow Step 5 (Horizontal Interactive Carousel) -->
     <section class="section why-us" id="why-us">
       <div class="container">
-        <div class="section-title-wrapper">
-          <div class="section-subtitle-wrap">
-            <div class="section-subtitle-single">
-              <img src="https://cdn.prod.website-files.com/6877e02f5387b6bdd6d338ec/687810aa5293f9e8c955c26a_Section%20Subtitle%20Icon.svg" alt="Why Us Icon" class="section-subtitle-icon">
-              <span class="section-subtitle">Why Nexora Growth?</span>
+        <div class="why-us-header-row">
+          <div class="section-title-wrapper why-us-title-wrapper">
+            <div class="section-subtitle-wrap">
+              <div class="section-subtitle-single">
+                <img src="https://cdn.prod.website-files.com/6877e02f5387b6bdd6d338ec/687810aa5293f9e8c955c26a_Section%20Subtitle%20Icon.svg" alt="Why Us Icon" class="section-subtitle-icon">
+                <span class="section-subtitle">Why Nexora Growth?</span>
+              </div>
+            </div>
+            <h2 class="section-title">Built For Scale, Speed, and Real Impact</h2>
+            <p class="section-description">
+              We partner with businesses to build high-grade digital products that turn ideas into commercial value.
+            </p>
+          </div>
+
+          <!-- Carousel Controls & Step Tracker -->
+          <div class="why-us-controls-wrap">
+            <div class="why-us-counter">
+              <span class="why-us-counter-current" id="whyUsCounterCurrent">01</span>
+              <span class="why-us-counter-divider">/</span>
+              <span class="why-us-counter-total">07</span>
+            </div>
+            <div class="why-us-buttons">
+              <button class="why-us-btn" id="whyUsPrev" type="button" aria-label="Previous pillar">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+              </button>
+              <button class="why-us-btn" id="whyUsNext" type="button" aria-label="Next pillar">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+              </button>
             </div>
           </div>
-          <h2 class="section-title">Built For Scale, Speed, and Real Impact</h2>
-          <p class="section-description">
-            We partner with businesses to build high-grade digital products that turn ideas into commercial value.
-          </p>
         </div>
 
-        <div class="why-us-grid">
-          <!-- Pillar 1 -->
-          <div class="why-us-card">
-            <div class="why-us-icon-wrap">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        <div class="why-us-slider-wrap">
+          <div class="why-us-slider-track" id="whyUsTrack">
+            <!-- Pillar 1 -->
+            <div class="why-us-card active" data-index="0">
+              <div class="why-us-card-top">
+                <div class="why-us-icon-wrap">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                </div>
+                <span class="why-us-step">PILLAR 01</span>
+              </div>
+              <h3 class="why-us-card-title">Business-Focused Solutions</h3>
+              <p class="why-us-card-desc">Every architecture and design decision is aligned directly with your business goals, customer conversion, and commercial ROI.</p>
+              <div class="why-us-card-tag">Conversion &amp; ROI Oriented</div>
             </div>
-            <h3 class="why-us-card-title">Business-Focused Solutions</h3>
-            <p class="why-us-card-desc">Every architecture and design decision is aligned directly with your business goals, customer conversion, and commercial ROI.</p>
-          </div>
 
-          <!-- Pillar 2 -->
-          <div class="why-us-card">
-            <div class="why-us-icon-wrap">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            <!-- Pillar 2 -->
+            <div class="why-us-card" data-index="1">
+              <div class="why-us-card-top">
+                <div class="why-us-icon-wrap">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                </div>
+                <span class="why-us-step">PILLAR 02</span>
+              </div>
+              <h3 class="why-us-card-title">Modern Technology</h3>
+              <p class="why-us-card-desc">Cutting-edge tech stacks (Next.js, React, Node.js, Python, Cloud) built for blazing speed, security, and exceptional performance.</p>
+              <div class="why-us-card-tag">Next.js &amp; Cloud Ready</div>
             </div>
-            <h3 class="why-us-card-title">Modern Technology</h3>
-            <p class="why-us-card-desc">Cutting-edge tech stacks (Next.js, React, Node.js, Python, Cloud) built for blazing speed, security, and exceptional performance.</p>
-          </div>
 
-          <!-- Pillar 3 -->
-          <div class="why-us-card">
-            <div class="why-us-icon-wrap">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M3 9h18"/></svg>
+            <!-- Pillar 3 -->
+            <div class="why-us-card" data-index="2">
+              <div class="why-us-card-top">
+                <div class="why-us-icon-wrap">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M3 9h18"/></svg>
+                </div>
+                <span class="why-us-step">PILLAR 03</span>
+              </div>
+              <h3 class="why-us-card-title">Custom-Built Digital Products</h3>
+              <p class="why-us-card-desc">Tailor-made software, dashboards, and client portals built to match your operational workflows without generic bloat.</p>
+              <div class="why-us-card-tag">Bespoke Architecture</div>
             </div>
-            <h3 class="why-us-card-title">Custom-Built Digital Products</h3>
-            <p class="why-us-card-desc">Tailor-made software, dashboards, and client portals built to match your operational workflows without generic bloat.</p>
-          </div>
 
-          <!-- Pillar 4 -->
-          <div class="why-us-card">
-            <div class="why-us-icon-wrap">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+            <!-- Pillar 4 -->
+            <div class="why-us-card" data-index="3">
+              <div class="why-us-card-top">
+                <div class="why-us-icon-wrap">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+                </div>
+                <span class="why-us-step">PILLAR 04</span>
+              </div>
+              <h3 class="why-us-card-title">AI-Powered Solutions</h3>
+              <p class="why-us-card-desc">Practical AI integrations, automated workflows, and generative video systems that save hours of manual labor every week.</p>
+              <div class="why-us-card-tag">Hours of Labor Saved</div>
             </div>
-            <h3 class="why-us-card-title">AI-Powered Solutions</h3>
-            <p class="why-us-card-desc">Practical AI integrations, automated workflows, and generative video systems that save hours of manual labor every week.</p>
-          </div>
 
-          <!-- Pillar 5 -->
-          <div class="why-us-card">
-            <div class="why-us-icon-wrap">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <!-- Pillar 5 -->
+            <div class="why-us-card" data-index="4">
+              <div class="why-us-card-top">
+                <div class="why-us-icon-wrap">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                </div>
+                <span class="why-us-step">PILLAR 05</span>
+              </div>
+              <h3 class="why-us-card-title">Creative Execution</h3>
+              <p class="why-us-card-desc">Intuitive UI/UX design, striking branding, and cinematic marketing visuals that set your business apart from competitors.</p>
+              <div class="why-us-card-tag">High Visual Authority</div>
             </div>
-            <h3 class="why-us-card-title">Creative Execution</h3>
-            <p class="why-us-card-desc">Intuitive UI/UX design, striking branding, and cinematic marketing visuals that set your business apart from competitors.</p>
-          </div>
 
-          <!-- Pillar 6 -->
-          <div class="why-us-card">
-            <div class="why-us-icon-wrap">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+            <!-- Pillar 6 -->
+            <div class="why-us-card" data-index="5">
+              <div class="why-us-card-top">
+                <div class="why-us-icon-wrap">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+                </div>
+                <span class="why-us-step">PILLAR 06</span>
+              </div>
+              <h3 class="why-us-card-title">Scalable Development</h3>
+              <p class="why-us-card-desc">Engineered for clean expansion. As your customer base grows, your infrastructure scales without friction or downtime.</p>
+              <div class="why-us-card-tag">Zero Bottlenecks</div>
             </div>
-            <h3 class="why-us-card-title">Scalable Development</h3>
-            <p class="why-us-card-desc">Engineered for clean expansion. As your customer base grows, your infrastructure scales without friction or downtime.</p>
-          </div>
 
-          <!-- Pillar 7 -->
-          <div class="why-us-card">
-            <div class="why-us-icon-wrap">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            <!-- Pillar 7 -->
+            <div class="why-us-card" data-index="6">
+              <div class="why-us-card-top">
+                <div class="why-us-icon-wrap">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                </div>
+                <span class="why-us-step">PILLAR 07</span>
+              </div>
+              <h3 class="why-us-card-title">Long-Term Support</h3>
+              <p class="why-us-card-desc">We don't vanish after launch. We provide ongoing maintenance, feature upgrades, and technical advisory to keep you ahead.</p>
+              <div class="why-us-card-tag">Dedicated Partnership</div>
             </div>
-            <h3 class="why-us-card-title">Long-Term Support</h3>
-            <p class="why-us-card-desc">We don't vanish after launch. We provide ongoing maintenance, feature upgrades, and technical advisory to keep you ahead.</p>
           </div>
         </div>
+
+        <!-- Progress bar & dots -->
+        <div class="why-us-progress-bar">
+          <div class="why-us-progress-fill" id="whyUsProgressFill"></div>
+        </div>
+        <div class="why-us-dots" id="whyUsDots"></div>
       </div>
     </section>
 
