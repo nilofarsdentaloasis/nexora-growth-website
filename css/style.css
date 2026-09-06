@@ -3963,18 +3963,18 @@ button, input, textarea {
   }
 
   .scroll-hero-stage {
-    height: 250vh !important; /* Smooth comfortable scroll travel distance */
+    height: 300vh !important;
   }
 
   .scroll-hero-sticky {
-    height: 70vh !important;
-    min-height: 340px !important;
-    padding-top: 60px !important;
-    padding-bottom: 10px !important;
+    height: 100vh !important;
+    min-height: 520px !important;
+    padding-top: 72px !important;
+    padding-bottom: 70px !important; /* keep clear of SCROLL hint */
   }
 
   .scroll-hero-row {
-    font-size: clamp(48px, 12.5vw, 62px) !important; /* Doubled font size */
+    font-size: clamp(38px, 10vw, 56px) !important;
     gap: 10px !important;
     flex-wrap: wrap !important;
     justify-content: center !important;
@@ -3984,16 +3984,16 @@ button, input, textarea {
   }
 
   .scroll-hero-icon-wrap {
-    height: clamp(46px, 11vw, 56px) !important;
+    height: clamp(36px, 9vw, 50px) !important;
   }
 
   .scroll-hero-pill {
     height: 100% !important;
-    width: clamp(46px, 11vw, 56px) !important;
+    width: clamp(36px, 9vw, 50px) !important;
   }
 
   .scroll-hero-hint {
-    bottom: 12px !important;
+    bottom: 20px !important;
   }
 
   /* --- Hero Details Section on Mobile (Reduced Padding, Small Side-by-Side Buttons) --- */
