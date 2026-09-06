@@ -107,9 +107,9 @@
   --_fonts---font-weight--bold: 700;
   --_fonts---font-weight--black: 900;
   
-  --section-gap: 28px;
-  --section-gap-medium: 20px;
-  --section-gap-small: 14px;
+  --section-gap: 42px;
+  --section-gap-medium: 30px;
+  --section-gap-small: 20px;
 }
 
 /* --- Base & Reset --- */
@@ -217,17 +217,17 @@ section[id] {
   max-width: 100%;
 }
 
-/* --- Section Headers & Subtitles (Center Aligned & Tight Spacing) --- */
+/* --- Section Headers & Subtitles (Center Aligned with Comfortable Spacing) --- */
 .section-title-wrapper {
   text-align: center !important;
   max-width: 720px;
-  margin: 0 auto 20px;
+  margin: 0 auto 26px;
 }
 
 .section-subtitle-wrap {
   display: flex;
   justify-content: center !important;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 
 .section-subtitle-wrap.left-alignment {
@@ -454,7 +454,7 @@ section[id] {
   position: relative;
   width: 100%;
   min-height: auto;
-  padding: 16px 0 14px;
+  padding: 32px 0 28px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -546,7 +546,7 @@ section[id] {
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 64px 20px 16px;
+  padding: 76px 20px 28px;
   max-width: 920px;
   margin: 0 auto;
   width: 100%;
@@ -1842,8 +1842,8 @@ section[id] {
 
 /* --- Company Sponsors Section & Infinite Ticker --- */
 .company-section {
-  padding-top: 14px;
-  padding-bottom: 14px;
+  padding-top: 26px;
+  padding-bottom: 26px;
   border-top: none;
   border-bottom: none;
   background-color: #ffffff;
@@ -1858,7 +1858,7 @@ section[id] {
   text-align: center;
   gap: 16px;
   max-width: 860px;
-  margin: 0 auto 12px;
+  margin: 0 auto 16px;
   padding: 0 16px;
   width: 100%;
 }
@@ -1968,7 +1968,7 @@ section[id] {
   display: grid;
   grid-template-columns: 0.9fr 1.1fr;
   align-items: center;
-  gap: 36px;
+  gap: 48px;
 }
 
 .about-us-image-wrapper {
@@ -1987,15 +1987,15 @@ section[id] {
 .about-us-top-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  margin-bottom: 20px;
+  gap: 18px;
+  margin-bottom: 26px;
 }
 
 .about-us-card {
   background-color: var(--_colors-plates---light-gray);
   border: 1px solid var(--_colors-plates---border);
   border-radius: 16px;
-  padding: 18px 16px;
+  padding: 22px 18px;
   opacity: 0;
   transform: translateY(22px) scale(0.96);
   transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
@@ -2082,7 +2082,7 @@ section[id] {
   display: grid;
   grid-template-columns: 360px 1fr auto;
   align-items: center;
-  padding: 16px 18px;
+  padding: 20px 18px;
   position: relative;
   text-decoration: none;
   transition: background-color 0.3s ease;
@@ -3705,21 +3705,21 @@ section[id] {
 
 /* --- Call to Action (CTA) Section --- */
 .section.cta {
-  padding-top: 14px;
-  padding-bottom: 14px;
+  padding-top: 30px;
+  padding-bottom: 30px;
   background-color: #ffffff;
 }
 
 .cta-wrapper {
   background-color: var(--_colors-plates---dark-bg);
   border-radius: 24px;
-  padding: 30px 24px;
+  padding: 40px 32px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  gap: 16px;
+  gap: 20px;
   background-image: radial-gradient(circle at top center, rgba(99, 102, 241, 0.16), transparent 60%);
 }
 
@@ -3861,16 +3861,16 @@ section[id] {
 .section.footer {
   background-color: var(--_colors-plates---dark-bg);
   color: #ffffff;
-  padding-top: 24px;
-  padding-bottom: 16px;
+  padding-top: 38px;
+  padding-bottom: 26px;
   border-top: 1px solid var(--_colors-plates---border-dark);
 }
 
 .footer-content {
   display: grid;
   grid-template-columns: 1fr 1.6fr;
-  gap: 36px;
-  margin-bottom: 20px;
+  gap: 48px;
+  margin-bottom: 26px;
 }
 
 .footer-form-details-title {
@@ -4421,8 +4421,8 @@ section[id] {
   align-items: center;
   justify-content: center;
   text-align: center;
-  gap: 14px;
-  margin-bottom: 20px;
+  gap: 16px;
+  margin-bottom: 28px;
 }
 
 .why-us-title-wrapper {
@@ -4800,7 +4800,9 @@ section[id] {
   :root {
     --_typography---titles--h1: 42px;
     --_typography---titles--h2: 34px;
-    --section-gap: 22px;
+    --section-gap: 34px;
+    --section-gap-medium: 24px;
+    --section-gap-small: 16px;
   }
 
   .navbar-full-container {
@@ -4977,7 +4979,9 @@ section[id] {
   :root {
     --_typography---titles--h1: 34px;
     --_typography---titles--h2: 26px;
-    --section-gap: 16px;
+    --section-gap: 26px;
+    --section-gap-medium: 20px;
+    --section-gap-small: 14px;
   }
 
   /* --- Mobile Header: Same style as Desktop (Logo Left, 3-Item Capsule Pill Right) --- */
@@ -5140,11 +5144,11 @@ section[id] {
   /* --- Hero mobile styles --- */
   .hero {
     min-height: auto !important;
-    padding: 8px 0 !important;
+    padding: 16px 0 !important;
   }
 
   .hero-content {
-    padding: 52px 16px 12px !important;
+    padding: 68px 16px 22px !important;
   }
 
   .hero-headline {
@@ -5334,8 +5338,8 @@ section[id] {
   }
 
   .section.footer {
-    padding-top: 18px !important;
-    padding-bottom: 12px !important;
+    padding-top: 28px !important;
+    padding-bottom: 18px !important;
   }
 
   .footer-content {
@@ -5524,14 +5528,14 @@ section[id] {
 
 /* --- 6 Service Tabs on Homepage --- */
 .service-tabs-wrapper {
-  margin-top: 4px;
-  margin-bottom: 12px;
+  margin-top: 12px;
+  margin-bottom: 24px;
 }
 
 .service-tabs-header {
   text-align: center;
   max-width: 680px;
-  margin: 0 auto 16px;
+  margin: 0 auto 24px;
 }
 
 .service-tabs-title {
