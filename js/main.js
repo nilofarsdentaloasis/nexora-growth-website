@@ -47,25 +47,95 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // --- Portfolio Category Fields & Projects Rendering ---
-  const projectsGrid = document.getElementById('portfolio-projects-grid');
-  const filterTabsContainer = document.getElementById('portfolio-filter-tabs');
-  const categoryFieldsWrapper = document.getElementById('category-fields-wrapper');
-  const activeCategoryContainer = document.getElementById('active-category-container');
-  const backToFieldsBtn = document.getElementById('back-to-fields-btn');
-  const activeCategoryTitle = document.getElementById('active-category-title');
-  const activeCategoryCount = document.getElementById('active-category-count');
-  const activeCategoryTag = document.getElementById('active-category-tag');
-
-  const categoryMeta = {
-    'Websites': { title: 'Websites & Web Applications', count: '6 Projects', tag: 'Web Development' },
-    'Software': { title: 'Custom Enterprise Software', count: '10 Projects', tag: 'Software Engineering' },
-    'AI': { title: 'AI Solutions & Automation', count: 'Featured AI Pipeline', tag: 'Artificial Intelligence' },
-    'Videos': { title: 'AI Video Generation & Media', count: '3 Video Shows', tag: 'Video Production' },
-    'Branding': { title: 'Branding & Creative Design', count: 'Design System', tag: 'Brand Identity' },
-    'Marketing': { title: 'Digital Marketing & Growth', count: '5 Growth Campaigns', tag: 'Growth Marketing' }
+  // --- Service Field Meta Information ---
+  const fieldMeta = {
+    'Websites': { 
+      title: 'Website Development', 
+      icon: '🌐',
+      count: '3 Live Sites + 6 Case Studies', 
+      tag: 'Web Applications & Portals',
+      hasLiveSites: true
+    },
+    'Software': { 
+      title: 'Custom Software Development', 
+      icon: '💻',
+      count: '10 Enterprise Systems', 
+      tag: 'Industrial ERPs, MES & Platforms',
+      hasLiveSites: false
+    },
+    'AI': { 
+      title: 'AI Solutions & Automation', 
+      icon: '🤖',
+      count: 'Autonomous Pipelines & Agents', 
+      tag: 'Machine Learning & Business Intelligence',
+      hasLiveSites: false
+    },
+    'Videos': { 
+      title: 'AI Video Generation & Media', 
+      icon: '🎬',
+      count: '3 Media Showcases & Podcasts', 
+      tag: 'Synthetic Video & 3D Production',
+      hasLiveSites: false
+    },
+    'Branding': { 
+      title: 'Branding & Creative Design', 
+      icon: '✨',
+      count: 'Design System & Visual Identities', 
+      tag: 'Identity, Typography & Vectors',
+      hasLiveSites: false
+    },
+    'Marketing': { 
+      title: 'Digital Marketing & Growth', 
+      icon: '📈',
+      count: '5 Targeted Growth Campaigns', 
+      tag: 'Performance Ads & Funnels',
+      hasLiveSites: false
+    }
   };
 
-  // Modal elements
+  // Live Deployed Client Websites Data (featured inside Website Development Tab)
+  const LIVE_CLIENT_WEBSITES = [
+    {
+      num: "01",
+      name: "We Care Auto Repair",
+      url: "www.wecareautorepairs.in",
+      href: "https://www.wecareautorepairs.in",
+      tag: "Auto Care Field",
+      desc: "Automotive servicing, multi-point vehicle inspection, mechanical repairs, and online workshop booking system.",
+      features: ["Slot Booking", "Inspection ERP", "SEO Optimized"]
+    },
+    {
+      num: "02",
+      name: "Nilofar's Dental Oasis",
+      url: "www.nilofarsdentaloasis.com",
+      href: "https://www.nilofarsdentaloasis.com",
+      tag: "Medical & Dental",
+      desc: "Advanced dental clinic, painless procedures, doctor profiles, and online patient appointment scheduling portal.",
+      features: ["Patient Booking", "Doctor Profiles", "Treatment Guide"]
+    },
+    {
+      num: "03",
+      name: "Morya Cab Services",
+      url: "www.moryacabservices.co.in",
+      href: "https://www.moryacabservices.co.in",
+      tag: "Cab & Travel",
+      desc: "Outstation cab bookings, airport taxi transfers, local city car rentals, and instant WhatsApp booking integration.",
+      features: ["WhatsApp Booking", "Fare Calculator", "24/7 Fleet"]
+    }
+  ];
+
+  // Helper function for HTML escaping
+  function escapeHTML(str) {
+    if (!str) return '';
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
+  // Project Detail Modal elements
   const modalBackdrop = document.getElementById('project-detail-modal');
   const modalCloseBtn = document.getElementById('project-modal-close-btn');
   const modalCategory = document.getElementById('modal-project-category');
@@ -80,460 +150,205 @@ document.addEventListener('DOMContentLoaded', () => {
   const modalTechContainer = document.getElementById('modal-tech-container');
   const modalLiveLink = document.getElementById('modal-live-link');
 
-  // Function to render project cards
-  function renderProjects(category = 'All') {
-    if (!projectsGrid || !window.NEXORA_PROJECTS) return;
+  // --- Field Showcase Modal Controller ---
+  const fieldModalBackdrop = document.getElementById('field-showcase-modal');
+  const fieldModalCloseBtn = document.getElementById('fieldModalCloseBtn');
+  const fieldModalTitle = document.getElementById('fieldModalTitle');
+  const fieldModalCount = document.getElementById('fieldModalCount');
+  const fieldModalIcon = document.getElementById('fieldModalIcon');
+  const fieldModalBody = document.getElementById('fieldModalBody');
 
-    const filtered = (category === 'All') 
-      ? window.NEXORA_PROJECTS 
-      : window.NEXORA_PROJECTS.filter(p => p.category.toLowerCase() === category.toLowerCase());
+  function openFieldModal(category) {
+    if (!fieldModalBackdrop || !fieldModalBody) return;
 
-    projectsGrid.innerHTML = '';
+    const meta = fieldMeta[category] || fieldMeta['Websites'];
+
+    // Update modal top bar
+    if (fieldModalTitle) fieldModalTitle.textContent = meta.title;
+    if (fieldModalCount) fieldModalCount.textContent = meta.count;
+    if (fieldModalIcon) fieldModalIcon.textContent = meta.icon;
+
+    // Update active tab pill in modal
+    const tabPills = fieldModalBackdrop.querySelectorAll('.field-modal-tab-pill');
+    tabPills.forEach(pill => {
+      const isMatch = (pill.getAttribute('data-switch') || '').toLowerCase() === category.toLowerCase();
+      pill.classList.toggle('active', isMatch);
+    });
+
+    // Clear previous modal body content
+    fieldModalBody.innerHTML = '';
+
+    // If 'Websites', render Live Deployed Client Websites showcase FIRST
+    if (meta.hasLiveSites) {
+      const liveSection = document.createElement('div');
+      liveSection.className = 'field-live-showcase';
+      liveSection.innerHTML = `
+        <div class="field-live-header">
+          <div class="field-live-badge">
+            <span class="live-pulse-dot"></span>
+            <span>Live Deployed Client Websites</span>
+          </div>
+          <span style="font-size: 13px; color: #64748b;">Direct client deployments — click to launch live site in new tab:</span>
+        </div>
+        <div class="field-live-grid">
+          ${LIVE_CLIENT_WEBSITES.map(site => `
+            <a href="${site.href}" target="_blank" rel="noopener noreferrer" class="field-live-card">
+              <div class="field-live-card-top">
+                <span class="field-live-num">${site.num}</span>
+                <span class="field-live-tag">${site.tag}</span>
+              </div>
+              <h4 class="field-live-name">${site.name}</h4>
+              <div class="field-live-url">${site.url}</div>
+              <p class="field-live-desc">${site.desc}</p>
+              <div class="field-live-btn">
+                <span>Launch Live Website</span>
+                <span>↗</span>
+              </div>
+            </a>
+          `).join('')}
+        </div>
+      `;
+      fieldModalBody.appendChild(liveSection);
+    }
+
+    // Projects Header
+    const projectsHeader = document.createElement('div');
+    projectsHeader.className = 'field-projects-header-wrap';
+    projectsHeader.innerHTML = `
+      <h3 class="field-projects-header-title">
+        ${meta.hasLiveSites ? 'All Website Case Studies & Architectures' : `${meta.title} — Completed Systems`}
+      </h3>
+      <p style="font-size: 14px; color: #64748b; margin: 0;">Click any project to inspect technical specifications, UI screenshots, and video walk-throughs.</p>
+    `;
+    fieldModalBody.appendChild(projectsHeader);
+
+    // Filter projects from window.NEXORA_PROJECTS
+    const projectsGrid = document.createElement('div');
+    projectsGrid.className = 'field-projects-grid';
+
+    const filtered = (window.NEXORA_PROJECTS || []).filter(p => 
+      p.category.toLowerCase() === category.toLowerCase()
+    );
 
     if (filtered.length === 0) {
       projectsGrid.innerHTML = `
-        <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: var(--_colors-plates---gray);">
-          <p>No projects found under this category.</p>
+        <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #64748b;">
+          <p>No projects found under this field.</p>
         </div>
       `;
-      return;
-    }
-
-    filtered.forEach((project, idx) => {
-      const card = document.createElement('div');
-      card.className = 'portfolio-card-single';
-      card.setAttribute('data-project-id', project.id);
-
-      const hasVideo = project.videos && project.videos.length > 0;
-
-      const hasDirectLive = project.liveUrl && !project.liveUrl.includes('example.com') && project.liveUrl !== '#';
-      const liveBtnLabel = project.liveUrl && project.liveUrl.includes('youtube.com') ? 'Watch on YouTube ↗' : 'Visit Live Website ↗';
-
-      card.innerHTML = `
-        <div class="portfolio-thumbnail-wrapper" role="button" tabindex="0" aria-label="View ${escapeHTML(project.title)}">
-          <img src="${project.thumbnail}" alt="${escapeHTML(project.title)}" class="portfolio-thumbnail" loading="lazy">
-          <div class="portfolio-thumbnail-overlay"></div>
-          <div class="portfolio-view-button">
-            ${hasVideo 
-              ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>' 
-              : 'View'}
-          </div>
-          ${hasVideo ? '<div class="portfolio-video-badge"><span class="video-dot"></span>Video Demo</div>' : ''}
-          <div class="portfolio-category-date">
-            <span>${escapeHTML(project.category)}</span>
-            <span class="portfolio-category-date-circle"></span>
-            <span>${escapeHTML(project.tag)}</span>
-          </div>
-        </div>
-        <div class="portfolio-typography">
-          <h3 class="work-name" role="button" tabindex="0">${escapeHTML(project.title)}</h3>
-          <div class="work-mini-description">${escapeHTML(project.description)}</div>
-          <div class="work-card-footer">
-            <button class="card-details-btn" type="button">View Details</button>
-            ${hasDirectLive ? `<a href="${project.liveUrl}" target="_blank" rel="noopener noreferrer" class="card-direct-live-btn" onclick="event.stopPropagation()">${liveBtnLabel}</a>` : ''}
-          </div>
-        </div>
-      `;
-
-      // Event listener to open modal
-      const openModalHandler = () => openProjectModal(project.id);
-      card.querySelector('.portfolio-thumbnail-wrapper').addEventListener('click', openModalHandler);
-      card.querySelector('.work-name').addEventListener('click', openModalHandler);
-      const detailsBtn = card.querySelector('.card-details-btn');
-      if (detailsBtn) detailsBtn.addEventListener('click', openModalHandler);
-
-      // Keyboard accessibility
-      card.querySelector('.portfolio-thumbnail-wrapper').addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          openModalHandler();
-        }
-      });
-
-      projectsGrid.appendChild(card);
-    });
-  }
-
-  // --- Category Carousel & Inside Field View Architecture ---
-  const carouselGrid = document.getElementById('category-fields-grid');
-  const carouselPrevBtn = document.getElementById('categoryCarouselPrev');
-  const carouselNextBtn = document.getElementById('categoryCarouselNext');
-  const carouselToggleBtn = document.getElementById('categoryCarouselToggle');
-
-  let selectedCategory = null;
-  let carouselTimer = null;
-  let isCarouselPaused = false;
-  let isInteracting = false;
-  let interactionResumeTimeout = null;
-  let hasDragged = false;
-  let isMouseDown = false;
-  let dragStartX = 0;
-  let dragScrollLeft = 0;
-
-  function getCardStep() {
-    if (!carouselGrid) return 320;
-    const card = carouselGrid.querySelector('.category-field-card');
-    if (!card) return 320;
-    return card.offsetWidth + 20; // card width + gap
-  }
-
-  function scrollCarouselNext() {
-    if (!carouselGrid) return;
-    const step = getCardStep();
-    const maxScroll = carouselGrid.scrollWidth - carouselGrid.clientWidth;
-    if (carouselGrid.scrollLeft >= maxScroll - 15) {
-      carouselGrid.scrollTo({ left: 0, behavior: 'smooth' });
     } else {
-      carouselGrid.scrollBy({ left: step, behavior: 'smooth' });
-    }
-  }
+      filtered.forEach(project => {
+        const card = document.createElement('div');
+        card.className = 'portfolio-card-single';
+        card.setAttribute('data-project-id', project.id);
 
-  function scrollCarouselPrev() {
-    if (!carouselGrid) return;
-    const step = getCardStep();
-    const maxScroll = carouselGrid.scrollWidth - carouselGrid.clientWidth;
-    if (carouselGrid.scrollLeft <= 15) {
-      carouselGrid.scrollTo({ left: maxScroll, behavior: 'smooth' });
-    } else {
-      carouselGrid.scrollBy({ left: -step, behavior: 'smooth' });
-    }
-  }
+        const hasVideo = project.videos && project.videos.length > 0;
+        const hasDirectLive = project.liveUrl && !project.liveUrl.includes('example.com') && project.liveUrl !== '#';
+        const liveBtnLabel = project.liveUrl && project.liveUrl.includes('youtube.com') ? 'Watch on YouTube ↗' : 'Visit Live ↗';
 
-  function startCarouselTimer() {
-    stopCarouselTimer();
-    if (isCarouselPaused) return;
-    carouselTimer = setInterval(() => {
-      if (!isInteracting && !isCarouselPaused && !selectedCategory) {
-        scrollCarouselNext();
-      }
-    }, 3000);
-  }
+        card.innerHTML = `
+          <div class="portfolio-thumbnail-wrapper" role="button" tabindex="0" aria-label="View ${escapeHTML(project.title)}">
+            <img src="${project.thumbnail}" alt="${escapeHTML(project.title)}" class="portfolio-thumbnail" loading="lazy">
+            <div class="portfolio-thumbnail-overlay"></div>
+            <div class="portfolio-view-button">
+              ${hasVideo 
+                ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>' 
+                : 'View'}
+            </div>
+            ${hasVideo ? '<div class="portfolio-video-badge"><span class="video-dot"></span>Video Demo</div>' : ''}
+            <div class="portfolio-category-date">
+              <span>${escapeHTML(project.category)}</span>
+              <span class="portfolio-category-date-circle"></span>
+              <span>${escapeHTML(project.tag)}</span>
+            </div>
+          </div>
+          <div class="portfolio-typography">
+            <h3 class="work-name" role="button" tabindex="0">${escapeHTML(project.title)}</h3>
+            <div class="work-mini-description">${escapeHTML(project.description)}</div>
+            <div class="work-card-footer">
+              <button class="card-details-btn" type="button">View Details</button>
+              ${hasDirectLive ? `<a href="${project.liveUrl}" target="_blank" rel="noopener noreferrer" class="card-direct-live-btn" onclick="event.stopPropagation()">${liveBtnLabel}</a>` : ''}
+            </div>
+          </div>
+        `;
 
-  function stopCarouselTimer() {
-    if (carouselTimer) {
-      clearInterval(carouselTimer);
-      carouselTimer = null;
-    }
-  }
+        const openDetail = () => openProjectModal(project.id);
+        card.querySelector('.portfolio-thumbnail-wrapper').addEventListener('click', openDetail);
+        card.querySelector('.work-name').addEventListener('click', openDetail);
+        const detailsBtn = card.querySelector('.card-details-btn');
+        if (detailsBtn) detailsBtn.addEventListener('click', openDetail);
 
-  function pauseCarousel() {
-    isCarouselPaused = true;
-    updateToggleBtnUI();
-  }
-
-  function resumeCarousel() {
-    isCarouselPaused = false;
-    updateToggleBtnUI();
-    startCarouselTimer();
-  }
-
-  function updateToggleBtnUI() {
-    if (!carouselToggleBtn) return;
-    const pauseIcon = carouselToggleBtn.querySelector('.pause-icon');
-    const playIcon = carouselToggleBtn.querySelector('.play-icon');
-    if (isCarouselPaused) {
-      if (pauseIcon) pauseIcon.style.display = 'none';
-      if (playIcon) playIcon.style.display = 'block';
-      carouselToggleBtn.setAttribute('aria-label', 'Resume Auto-roll');
-      carouselToggleBtn.title = 'Resume Auto-roll';
-    } else {
-      if (pauseIcon) pauseIcon.style.display = 'block';
-      if (playIcon) playIcon.style.display = 'none';
-      carouselToggleBtn.setAttribute('aria-label', 'Pause Auto-roll');
-      carouselToggleBtn.title = 'Pause Auto-roll';
-    }
-  }
-
-  function tempPauseInteraction(duration = 4000) {
-    isInteracting = true;
-    if (interactionResumeTimeout) clearTimeout(interactionResumeTimeout);
-    interactionResumeTimeout = setTimeout(() => {
-      isInteracting = false;
-    }, duration);
-  }
-
-  // --- Category Field Open & Switch Functions ---
-  function openCategoryField(category, shouldScroll = true) {
-    if (!categoryFieldsWrapper || !activeCategoryContainer) return;
-
-    selectedCategory = category;
-
-    // Keep horizontal tiles visible, and open active category container directly below
-    categoryFieldsWrapper.style.display = 'block';
-    activeCategoryContainer.style.display = 'block';
-
-    // Highlight selected card and center in carousel view
-    const cards = document.querySelectorAll('.category-field-card');
-    cards.forEach(card => {
-      const match = (card.getAttribute('data-category') || '').toLowerCase() === category.toLowerCase();
-      card.classList.toggle('active-selected', match);
-      card.setAttribute('aria-selected', match ? 'true' : 'false');
-      if (match) {
-        card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-      }
-    });
-
-    // Update title, tag, and project count
-    const meta = categoryMeta[category] || { title: category, count: '', tag: 'Field' };
-    if (activeCategoryTitle) activeCategoryTitle.textContent = meta.title;
-    if (activeCategoryCount) activeCategoryCount.textContent = meta.count;
-    if (activeCategoryTag) activeCategoryTag.textContent = meta.tag;
-
-    // Update quick switch pills
-    if (filterTabsContainer) {
-      const filterButtons = filterTabsContainer.querySelectorAll('.portfolio-filter-btn');
-      filterButtons.forEach(btn => {
-        const isMatch = btn.getAttribute('data-category').toLowerCase() === category.toLowerCase();
-        btn.classList.toggle('active', isMatch);
-        btn.setAttribute('aria-selected', isMatch ? 'true' : 'false');
+        projectsGrid.appendChild(card);
       });
     }
 
-    // Render projects for this category
-    renderProjects(category);
+    fieldModalBody.appendChild(projectsGrid);
 
-    // Pause auto-roll while reviewing inside data
-    pauseCarousel();
-
-    // Smooth scroll directly to inside data below cards
-    if (shouldScroll) {
-      const topOffset = activeCategoryContainer.getBoundingClientRect().top + window.pageYOffset - 90;
-      window.scrollTo({ top: topOffset, behavior: 'smooth' });
-    }
+    // Reveal modal
+    fieldModalBackdrop.classList.add('active');
+    fieldModalBackdrop.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
   }
 
-  function closeCategoryField(shouldScroll = true) {
-    if (!categoryFieldsWrapper || !activeCategoryContainer) return;
+  function closeFieldModal() {
+    if (!fieldModalBackdrop) return;
+    fieldModalBackdrop.classList.remove('active');
+    fieldModalBackdrop.style.display = 'none';
+    document.body.style.overflow = '';
+  }
 
-    selectedCategory = null;
+  // Bind close buttons and escape key for field modal
+  if (fieldModalCloseBtn) {
+    fieldModalCloseBtn.addEventListener('click', closeFieldModal);
+  }
 
-    // Hide inside data view
-    activeCategoryContainer.style.display = 'none';
-
-    // Remove active state from cards
-    const cards = document.querySelectorAll('.category-field-card');
-    cards.forEach(card => {
-      card.classList.remove('active-selected');
-      card.setAttribute('aria-selected', 'false');
-    });
-
-    // Resume auto-roll
-    resumeCarousel();
-
-    if (shouldScroll) {
-      const target = document.getElementById('category-fields-wrapper') || document.getElementById('projects');
-      if (target) {
-        const topOffset = target.getBoundingClientRect().top + window.pageYOffset - 80;
-        window.scrollTo({ top: topOffset, behavior: 'smooth' });
+  if (fieldModalBackdrop) {
+    fieldModalBackdrop.addEventListener('click', (e) => {
+      if (e.target === fieldModalBackdrop) {
+        closeFieldModal();
       }
-    }
+    });
   }
 
-  // Bind category field cards
-  const fieldCards = document.querySelectorAll('.category-field-card');
-  fieldCards.forEach(card => {
-    const category = card.getAttribute('data-category');
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && fieldModalBackdrop && fieldModalBackdrop.classList.contains('active')) {
+      closeFieldModal();
+    }
+  });
+
+  // Bind the 6 service tab cards on the homepage
+  const serviceTabCards = document.querySelectorAll('.service-tab-card[data-service]');
+  serviceTabCards.forEach(card => {
     card.addEventListener('click', () => {
-      if (hasDragged) return; // Prevent selection if user was dragging
-      openCategoryField(category, true);
-    });
-    card.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        openCategoryField(category, true);
-      }
-    });
-  });
-
-  // Carousel Controls & Interaction Listeners
-  if (carouselGrid) {
-    if (carouselPrevBtn) {
-      carouselPrevBtn.addEventListener('click', () => {
-        tempPauseInteraction(4500);
-        scrollCarouselPrev();
-      });
-    }
-
-    if (carouselNextBtn) {
-      carouselNextBtn.addEventListener('click', () => {
-        tempPauseInteraction(4500);
-        scrollCarouselNext();
-      });
-    }
-
-    if (carouselToggleBtn) {
-      carouselToggleBtn.addEventListener('click', () => {
-        if (isCarouselPaused) {
-          resumeCarousel();
-        } else {
-          pauseCarousel();
-        }
-      });
-    }
-
-    // Provision to stop auto-roll on hover
-    carouselGrid.addEventListener('mouseenter', () => {
-      isInteracting = true;
-    });
-
-    carouselGrid.addEventListener('mouseleave', () => {
-      if (!isMouseDown) {
-        tempPauseInteraction(1500);
-      }
-    });
-
-    // Provisions for mobile touch / swipe
-    carouselGrid.addEventListener('touchstart', () => {
-      isInteracting = true;
-    }, { passive: true });
-
-    carouselGrid.addEventListener('touchend', () => {
-      tempPauseInteraction(3000);
-    }, { passive: true });
-
-    // Drag-to-scroll provision for mouse
-    carouselGrid.addEventListener('mousedown', (e) => {
-      isMouseDown = true;
-      hasDragged = false;
-      isInteracting = true;
-      dragStartX = e.pageX - carouselGrid.offsetLeft;
-      dragScrollLeft = carouselGrid.scrollLeft;
-    });
-
-    window.addEventListener('mouseup', () => {
-      if (isMouseDown) {
-        isMouseDown = false;
-        setTimeout(() => { hasDragged = false; }, 80);
-        tempPauseInteraction(2000);
-      }
-    });
-
-    carouselGrid.addEventListener('mousemove', (e) => {
-      if (!isMouseDown) return;
-      e.preventDefault();
-      const x = e.pageX - carouselGrid.offsetLeft;
-      const walk = (x - dragStartX) * 1.35;
-      if (Math.abs(walk) > 6) {
-        hasDragged = true;
-      }
-      carouselGrid.scrollLeft = dragScrollLeft - walk;
-    });
-
-    // Start 3s auto-roll
-    startCarouselTimer();
-  }
-
-  // Bind close button
-  if (backToFieldsBtn) {
-    backToFieldsBtn.addEventListener('click', () => closeCategoryField(true));
-  }
-
-  // Quick switch pills click
-  if (filterTabsContainer) {
-    const filterButtons = filterTabsContainer.querySelectorAll('.portfolio-filter-btn');
-    filterButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const category = btn.getAttribute('data-category');
-        openCategoryField(category, false);
-      });
-    });
-  }
-
-  // Bind Service links with data-open-category
-  const serviceCategoryLinks = document.querySelectorAll('.services-single[data-open-category]');
-  serviceCategoryLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
-      const category = link.getAttribute('data-open-category');
+      const category = card.getAttribute('data-service');
       if (category) {
-        openCategoryField(category, true);
+        openFieldModal(category);
       }
     });
   });
 
-  // ---- 1. Live Client Websites Horizontal Slider ----
-  function initLiveSitesSlider() {
-    const track = document.getElementById('liveSitesTrack');
-    const prevBtn = document.getElementById('liveSitesPrev');
-    const nextBtn = document.getElementById('liveSitesNext');
-    const dotsContainer = document.getElementById('liveSitesDots');
-    if (!track) return;
+  // Bind quick-switch tabs inside the field modal
+  const modalTabPills = document.querySelectorAll('.field-modal-tab-pill');
+  modalTabPills.forEach(pill => {
+    pill.addEventListener('click', () => {
+      const switchCat = pill.getAttribute('data-switch');
+      if (switchCat) {
+        openFieldModal(switchCat);
+      }
+    });
+  });
 
-    const cards = track.querySelectorAll('.live-site-card');
-    if (cards.length === 0) return;
-
-    // Create dots
-    if (dotsContainer) {
-      dotsContainer.innerHTML = '';
-      cards.forEach((_, idx) => {
-        const dot = document.createElement('button');
-        dot.className = `live-dot ${idx === 0 ? 'active' : ''}`;
-        dot.setAttribute('aria-label', `Go to slide ${idx + 1}`);
-        dot.addEventListener('click', () => {
-          const cardWidth = cards[0].offsetWidth + 20;
-          track.scrollTo({ left: idx * cardWidth, behavior: 'smooth' });
-        });
-        dotsContainer.appendChild(dot);
-      });
-    }
-
-    function updateDots() {
-      if (!dotsContainer) return;
-      const cardWidth = cards[0].offsetWidth + 20;
-      const activeIdx = Math.round(track.scrollLeft / cardWidth);
-      const dots = dotsContainer.querySelectorAll('.live-dot');
-      dots.forEach((d, idx) => d.classList.toggle('active', idx === activeIdx));
-    }
-
-    track.addEventListener('scroll', updateDots, { passive: true });
-
-    if (prevBtn) {
-      prevBtn.addEventListener('click', () => {
-        const cardWidth = cards[0].offsetWidth + 20;
-        track.scrollBy({ left: -cardWidth, behavior: 'smooth' });
-      });
-    }
-
-    if (nextBtn) {
-      nextBtn.addEventListener('click', () => {
-        const cardWidth = cards[0].offsetWidth + 20;
-        if (track.scrollLeft + track.clientWidth >= track.scrollWidth - 10) {
-          track.scrollTo({ left: 0, behavior: 'smooth' });
-        } else {
-          track.scrollBy({ left: cardWidth, behavior: 'smooth' });
-        }
-      });
-    }
-  }
-  initLiveSitesSlider();
-
-  // ---- 2. Portfolio Projects Horizontal Slider ----
-  function initPortfolioSlider() {
-    const track = document.getElementById('portfolio-projects-grid');
-    const prevBtn = document.getElementById('portfolioSliderPrev');
-    const nextBtn = document.getElementById('portfolioSliderNext');
-    if (!track) return;
-
-    if (prevBtn) {
-      prevBtn.addEventListener('click', () => {
-        const firstCard = track.querySelector('.portfolio-card-single');
-        const step = firstCard ? firstCard.offsetWidth + 24 : 360;
-        track.scrollBy({ left: -step, behavior: 'smooth' });
-      });
-    }
-
-    if (nextBtn) {
-      nextBtn.addEventListener('click', () => {
-        const firstCard = track.querySelector('.portfolio-card-single');
-        const step = firstCard ? firstCard.offsetWidth + 24 : 360;
-        if (track.scrollLeft + track.clientWidth >= track.scrollWidth - 15) {
-          track.scrollTo({ left: 0, behavior: 'smooth' });
-        } else {
-          track.scrollBy({ left: step, behavior: 'smooth' });
-        }
-      });
-    }
-  }
-  initPortfolioSlider();
+  // Bind Services section cards (Step 2) to open corresponding field modal
+  const servicesCards = document.querySelectorAll('.services-single[data-open-category]');
+  servicesCards.forEach(card => {
+    card.addEventListener('click', (e) => {
+      e.preventDefault();
+      const cat = card.getAttribute('data-open-category');
+      if (cat) {
+        openFieldModal(cat);
+      }
+    });
+  });
 
   // ---- 3. Why Nexora Growth Horizontal Carousel ----
   function initWhyUsSlider() {
@@ -743,21 +558,20 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // --- Initial State ---
-  // The home page displays the 6 Category Field Cards by default, keeping the section sleek.
-  // If the page loads with a specific hash (e.g., from a shared link or external navigation), open that field.
+  // If the page loads with a specific hash (e.g., from a shared link or external navigation), open that field modal.
   const initialHash = window.location.hash.toLowerCase();
   if (initialHash.includes('websites')) {
-    openCategoryField('Websites', false);
+    openFieldModal('Websites');
   } else if (initialHash.includes('software')) {
-    openCategoryField('Software', false);
+    openFieldModal('Software');
   } else if (initialHash.includes('ai')) {
-    openCategoryField('AI', false);
+    openFieldModal('AI');
   } else if (initialHash.includes('videos')) {
-    openCategoryField('Videos', false);
+    openFieldModal('Videos');
   } else if (initialHash.includes('branding')) {
-    openCategoryField('Branding', false);
+    openFieldModal('Branding');
   } else if (initialHash.includes('marketing')) {
-    openCategoryField('Marketing', false);
+    openFieldModal('Marketing');
   }
 
   // ---- Pinned Scroll-Driven Working Process (from team-carousel.html) ----
