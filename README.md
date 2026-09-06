@@ -1,5 +1,9 @@
 # Nexora Growth
 
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Vercel-black?style=for-the-badge&logo=vercel)](https://nexora-growth-website.vercel.app/)
+
+> **Live Website:** [https://nexora-growth-website.vercel.app/](https://nexora-growth-website.vercel.app/)
+
 Nexora Growth is a modern, responsive digital solutions and development agency website showcasing digital projects, web design, software development, AI solutions, and creative media services.
 
 ## 🚀 Features
