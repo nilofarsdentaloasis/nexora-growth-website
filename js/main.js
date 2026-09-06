@@ -640,7 +640,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let active = 0;
     let lastActive = -1;
     const n = processSteps.length;
-    const SCROLL_UNITS_PER_SLIDE = 0.85;
+    const SCROLL_UNITS_PER_SLIDE = 0.5;
 
     function setPinHeight() {
       pinOuter.style.height = `${(n - 1) * SCROLL_UNITS_PER_SLIDE * 100 + 100}vh`;
