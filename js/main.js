@@ -600,45 +600,35 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // ---- Pinned Interactive Scroll Hero (Design that matters) ----
+  // ---- Pinned Interactive Scroll Hero (Growth that matters) ----
   function initScrollHero() {
     const stage    = document.getElementById('scrollHeroStage') || document.getElementById('home');
+    const row      = document.getElementById('scrollHeroRow');
+    const lead     = document.getElementById('scrollHeroLead');
+    const wipe     = document.getElementById('scrollHeroWipe');
     const fill     = document.getElementById('scrollHeroFill');
     const pill     = document.getElementById('scrollHeroPill');
     const asterisk = document.getElementById('scrollHeroAsterisk');
-    const slot     = document.getElementById('scrollHeroThumbSlot');
     const hint     = document.getElementById('scrollHeroHint');
 
-    if (!stage || !fill || !pill || !asterisk || !slot) return;
-
-    // Curated high-impact project previews
-    const IMAGES = [
-      'https://images.unsplash.com/photo-1629909613654-28e377c37b09?q=80&w=600&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=600&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=600&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=600&auto=format&fit=crop',
-      'images/hero-visual.jpg'
-    ];
-
-    const thumbs = IMAGES.map(src => {
-      const img = document.createElement('img');
-      img.src = src;
-      img.className = 'scroll-hero-thumb';
-      img.alt = 'Nexora Portfolio Work Preview';
-      img.loading = 'eager';
-      slot.appendChild(img);
-      return img;
-    });
+    if (!stage || !row || !fill || !pill || !asterisk || !wipe) return;
 
     const clamp = (v, min, max) => Math.min(Math.max(v, min), max);
     const smooth = (a, b, x) => { const t = clamp((x - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); };
     const lerp = (a, b, t) => a + (b - a) * t;
 
     let baseWidth = 0;
+    let wipeNaturalWidth = 0;
+
     function measure() {
       pill.style.width = '';
       const circleSize = pill.getBoundingClientRect().height;
       baseWidth = circleSize * 3.2;
+
+      // Measure natural width of "that matters"
+      wipe.style.maxWidth = 'none';
+      wipeNaturalWidth = wipe.scrollWidth || 180;
+
       onScroll();
     }
 
@@ -650,11 +640,45 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function update(p) {
-      // 1. Text wipe: "that matters" turns from gray to dark/primary
-      const textT = smooth(0.10, 0.42, p);
-      fill.style.width = (textT * 100) + '%';
+      const isMobile = window.innerWidth <= 767;
 
-      // 2. Pill -> circle -> pill, with smooth dark fill mid-scroll
+      // --- 1. Mobile Dynamic Adaptation: "Growth" covers screen initially, "that matters" comes in and auto-scales down ---
+      if (isMobile) {
+        const entryT = smooth(0.04, 0.38, p);
+        const textT  = smooth(0.38, 0.68, p);
+
+        // "that matters" enters smoothly
+        wipe.style.opacity = entryT;
+        wipe.style.transform = `translateX(${(1 - entryT) * 32}px)`;
+        wipe.style.maxWidth = `${entryT * wipeNaturalWidth}px`;
+
+        // Calculate dynamic scale so "Growth" + icon covers mobile width initially (~86%),
+        // and when "that matters" enters, the full phrase scales down to fit the mobile screen comfortably.
+        const leadWidth = (lead ? lead.offsetWidth : 120);
+        const pillInitialW = baseWidth || 70;
+        const initialCombined = leadWidth + pillInitialW + 16;
+        const initialScale = clamp((window.innerWidth * 0.86) / Math.max(1, initialCombined), 1.25, 1.75);
+
+        const fullCombined = leadWidth + pillInitialW + wipeNaturalWidth + 28;
+        const finalScale = clamp((window.innerWidth * 0.90) / Math.max(1, fullCombined), 0.78, 1.05);
+
+        const currentScale = lerp(initialScale, finalScale, entryT);
+        row.style.transform = `scale(${currentScale})`;
+
+        // Text wipe for "that matters"
+        fill.style.width = (textT * 100) + '%';
+      } else {
+        // Desktop view: natural flow with smooth text wipe
+        row.style.transform = 'none';
+        wipe.style.opacity = '1';
+        wipe.style.transform = 'none';
+        wipe.style.maxWidth = 'none';
+
+        const textT = smooth(0.12, 0.45, p);
+        fill.style.width = (textT * 100) + '%';
+      }
+
+      // --- 2. Clean Wheel Morphing & Asterisk Rotation (No distracting preview images) ---
       const morphT   = smooth(0.05, 0.34, p);
       const holdT    = smooth(0.34, 0.62, p);
       const reopenT  = smooth(0.78, 1.00, p);
@@ -677,23 +701,7 @@ document.addEventListener('DOMContentLoaded', () => {
       asterisk.style.color = bgT > 0.5 ? '#ffffff' : '#0f172a';
       asterisk.style.transform = `rotate(${p * 540}deg) scale(${1 + morphT * 0.15})`;
 
-      // 3. Thumbnails flash across the icon mid-scroll
-      const spanStart = 0.36, spanEnd = 0.80;
-      const n = thumbs.length;
-      thumbs.forEach((img, i) => {
-        const s = spanStart + (i / n) * (spanEnd - spanStart);
-        const e = s + (spanEnd - spanStart) / n;
-        const mid = (s + e) / 2;
-        const inT  = smooth(s, mid, p);
-        const outT = smooth(mid, e, p);
-        const visible = inT - outT;
-        img.style.opacity = visible;
-        const scale = lerp(0.4, 1, inT) - outT * 0.25;
-        const rise  = lerp(14, -14, clamp((p - s) / (e - s), 0, 1));
-        img.style.transform = `translate(-50%,-50%) translateY(${rise}px) scale(${Math.max(scale, 0)})`;
-      });
-
-      // 4. Scroll hint fades once user starts scrolling
+      // --- 3. Scroll Hint Fade ---
       if (hint) {
         hint.style.opacity = p < 0.05 ? '1' : '0';
       }
