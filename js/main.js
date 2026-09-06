@@ -832,16 +832,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const buttons     = document.getElementById('heroButtons');
     const stats       = document.getElementById('heroStats');
     const scrollHint  = document.getElementById('heroScrollHint');
-    const logoWrap    = document.querySelector('.hero-logo-wrap');
 
     if (!hero) return;
 
     // ── 1. Entrance animations (triggered shortly after load) ──
     function playEntrance() {
-      // Logo (mobile)
-      if (logoWrap) {
-        setTimeout(() => logoWrap.classList.add('hero-animated'), 80);
-      }
       // Badge
       if (badge) {
         setTimeout(() => badge.classList.add('hero-animated'), 120);
@@ -903,10 +898,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const scrolled = window.scrollY;
       const progress = Math.min(scrolled / heroH, 1);
 
-      // Parallax: content drifts up gently
+      // Parallax: content drifts up gently (no fading)
       const drift = progress * heroH * 0.22;
       content.style.transform = `translateY(-${drift}px)`;
-      content.style.opacity = `${1 - progress * 1.4}`;
 
       // Fade hint when scrolling starts
       if (scrollHint) {
