@@ -599,5 +599,126 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
+
+  // ---- Pinned Interactive Scroll Hero (Design that matters) ----
+  function initScrollHero() {
+    const stage    = document.getElementById('scrollHeroStage') || document.getElementById('home');
+    const fill     = document.getElementById('scrollHeroFill');
+    const pill     = document.getElementById('scrollHeroPill');
+    const asterisk = document.getElementById('scrollHeroAsterisk');
+    const slot     = document.getElementById('scrollHeroThumbSlot');
+    const hint     = document.getElementById('scrollHeroHint');
+
+    if (!stage || !fill || !pill || !asterisk || !slot) return;
+
+    // Curated high-impact project previews
+    const IMAGES = [
+      'https://images.unsplash.com/photo-1629909613654-28e377c37b09?q=80&w=600&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=600&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=600&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=600&auto=format&fit=crop',
+      'images/hero-visual.jpg'
+    ];
+
+    const thumbs = IMAGES.map(src => {
+      const img = document.createElement('img');
+      img.src = src;
+      img.className = 'scroll-hero-thumb';
+      img.alt = 'Nexora Portfolio Work Preview';
+      img.loading = 'eager';
+      slot.appendChild(img);
+      return img;
+    });
+
+    const clamp = (v, min, max) => Math.min(Math.max(v, min), max);
+    const smooth = (a, b, x) => { const t = clamp((x - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); };
+    const lerp = (a, b, t) => a + (b - a) * t;
+
+    let baseWidth = 0;
+    function measure() {
+      pill.style.width = '';
+      const circleSize = pill.getBoundingClientRect().height;
+      baseWidth = circleSize * 3.2;
+      onScroll();
+    }
+
+    function getCurrentProgress() {
+      const rect = stage.getBoundingClientRect();
+      const total = stage.offsetHeight - window.innerHeight;
+      const scrolled = -rect.top;
+      return clamp(total > 0 ? scrolled / total : 0, 0, 1);
+    }
+
+    function update(p) {
+      // 1. Text wipe: "that matters" turns from gray to dark/primary
+      const textT = smooth(0.10, 0.42, p);
+      fill.style.width = (textT * 100) + '%';
+
+      // 2. Pill -> circle -> pill, with smooth dark fill mid-scroll
+      const morphT   = smooth(0.05, 0.34, p);
+      const holdT    = smooth(0.34, 0.62, p);
+      const reopenT  = smooth(0.78, 1.00, p);
+
+      const circleSize = pill.getBoundingClientRect().height;
+      const width = lerp(baseWidth, circleSize, morphT) * (1 - reopenT) + baseWidth * reopenT;
+      pill.style.width = width + 'px';
+
+      const bgT = clamp(holdT - reopenT, 0, 1);
+      if (bgT > 0) {
+        if (window.CSS && CSS.supports && CSS.supports('color', 'color-mix(in srgb, black, white)')) {
+          pill.style.backgroundColor = `color-mix(in srgb, #0f172a ${bgT * 100}%, #f1f2f6)`;
+        } else {
+          pill.style.backgroundColor = bgT > 0.5 ? '#0f172a' : '#f1f2f6';
+        }
+      } else {
+        pill.style.backgroundColor = '#f1f2f6';
+      }
+
+      asterisk.style.color = bgT > 0.5 ? '#ffffff' : '#0f172a';
+      asterisk.style.transform = `rotate(${p * 540}deg) scale(${1 + morphT * 0.15})`;
+
+      // 3. Thumbnails flash across the icon mid-scroll
+      const spanStart = 0.36, spanEnd = 0.80;
+      const n = thumbs.length;
+      thumbs.forEach((img, i) => {
+        const s = spanStart + (i / n) * (spanEnd - spanStart);
+        const e = s + (spanEnd - spanStart) / n;
+        const mid = (s + e) / 2;
+        const inT  = smooth(s, mid, p);
+        const outT = smooth(mid, e, p);
+        const visible = inT - outT;
+        img.style.opacity = visible;
+        const scale = lerp(0.4, 1, inT) - outT * 0.25;
+        const rise  = lerp(14, -14, clamp((p - s) / (e - s), 0, 1));
+        img.style.transform = `translate(-50%,-50%) translateY(${rise}px) scale(${Math.max(scale, 0)})`;
+      });
+
+      // 4. Scroll hint fades once user starts scrolling
+      if (hint) {
+        hint.style.opacity = p < 0.05 ? '1' : '0';
+      }
+    }
+
+    function onScroll() {
+      update(getCurrentProgress());
+    }
+
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          onScroll();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+
+    window.addEventListener('resize', measure);
+    window.addEventListener('load', measure);
+    measure();
+  }
+
+  initScrollHero();
 });
 

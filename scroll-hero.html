@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Design that matters — scroll reveal</title>
+<style>
+  :root{
+    --ink:#0a0a0a;
+    --mute:#dcdcdc;
+    --pill:#f2f2f0;
+    --pill-ink:#0a0a0a;
+  }
+  *{ box-sizing:border-box; }
+  html,body{
+    margin:0; padding:0;
+    background:#fff;
+    color:var(--ink);
+    font-family:"Helvetica Neue", Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    overscroll-behavior-y:none;
+  }
+
+  /* ---------- scroll stage ---------- */
+  .stage{
+    position:relative;
+    height:420vh; /* scroll distance that drives the animation */
+  }
+  .sticky{
+    position:sticky;
+    top:0;
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+  }
+
+  .hero-row{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:clamp(10px, 1.6vw, 28px);
+    white-space:nowrap;
+    font-weight:800;
+    font-size:clamp(34px, 8.6vw, 128px);
+    letter-spacing:-0.03em;
+    line-height:1;
+  }
+
+  .word{ display:inline-block; }
+
+  /* "that matters" wipe-reveal: a gray base layer with a black layer
+     clipped to a width driven by scroll progress */
+  .wipe{
+    position:relative;
+    display:inline-block;
+    color:var(--mute);
+  }
+  .wipe .fill{
+    position:absolute;
+    left:0; top:0;
+    width:0%;
+    overflow:hidden;
+    color:var(--ink);
+    white-space:nowrap;
+    will-change:width;
+  }
+
+  /* ---------- icon / pill ---------- */
+  .icon-wrap{
+    position:relative;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    height:clamp(46px, 8vw, 108px);
+  }
+  .pill{
+    position:relative;
+    height:100%;
+    width:clamp(46px, 8vw, 108px);
+    border-radius:999px;
+    background:var(--pill);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:visible;
+    will-change:width, background-color;
+  }
+  .asterisk{
+    position:relative;
+    z-index:3;
+    width:44%;
+    height:44%;
+    color:var(--pill-ink);
+    transform-origin:center;
+    will-change:transform, color;
+  }
+
+  /* thumbnails that flash across the pill while scrolling */
+  .thumb{
+    position:absolute;
+    top:50%; left:50%;
+    width:clamp(64px, 11vw, 150px);
+    height:clamp(64px, 11vw, 150px);
+    border-radius:22px;
+    object-fit:cover;
+    transform:translate(-50%,-50%) scale(.3);
+    opacity:0;
+    box-shadow:0 18px 40px -18px rgba(0,0,0,.35);
+    will-change:transform, opacity;
+    pointer-events:none;
+  }
+
+  /* ---------- scroll hint ---------- */
+  .hint{
+    position:absolute;
+    bottom:38px;
+    left:50%;
+    transform:translateX(-50%);
+    font-size:12px;
+    letter-spacing:.08em;
+    color:#9a9a9a;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:8px;
+    opacity:1;
+    transition:opacity .3s ease;
+  }
+  .hint .line{
+    width:1px; height:26px;
+    background:linear-gradient(#9a9a9a, transparent);
+  }
+
+  /* filler sections so the page has real scroll content */
+  .pad{
+    height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#bdbdbd;
+    font-size:14px;
+    letter-spacing:.08em;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .pill, .asterisk, .thumb, .wipe .fill{ transition:none !important; }
+  }
+</style>
+</head>
+<body>
+
+  <section class="stage" id="stage">
+    <div class="sticky">
+      <div class="hero-row">
+        <span class="word">Design</span>
+
+        <span class="icon-wrap">
+          <span class="pill" id="pill">
+            <span class="thumb-slot" id="thumbSlot"></span>
+            <svg class="asterisk" id="asterisk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+              <line x1="12" y1="2"  x2="12" y2="22"/>
+              <line x1="4.5" y1="6" x2="19.5" y2="18"/>
+              <line x1="19.5" y1="6" x2="4.5" y2="18"/>
+            </svg>
+          </span>
+        </span>
+
+        <span class="word wipe">
+          that matters
+          <span class="fill" id="fill">that matters</span>
+        </span>
+      </div>
+
+      <div class="hint" id="hint">
+        <span>SCROLL</span>
+        <span class="line"></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="pad">keep scrolling — the hero above is pinned and driven by scroll position</section>
+
+<script>
+(function(){
+  const stage   = document.getElementById('stage');
+  const fill    = document.getElementById('fill');
+  const pill    = document.getElementById('pill');
+  const asterisk= document.getElementById('asterisk');
+  const slot    = document.getElementById('thumbSlot');
+  const hint    = document.getElementById('hint');
+
+  // Placeholder project thumbnails — swap for real work samples.
+  const IMAGES = [
+    'https://picsum.photos/id/1015/300/300',
+    'https://picsum.photos/id/1025/300/300',
+    'https://picsum.photos/id/1035/300/300',
+    'https://picsum.photos/id/1045/300/300',
+    'https://picsum.photos/id/1055/300/300'
+  ];
+
+  const thumbs = IMAGES.map(src=>{
+    const img = document.createElement('img');
+    img.src = src;
+    img.className = 'thumb';
+    slot.appendChild(img);
+    return img;
+  });
+
+  const clamp = (v,min,max)=>Math.min(Math.max(v,min),max);
+  const smooth = (a,b,x)=>{ const t = clamp((x-a)/(b-a),0,1); return t*t*(3-2*t); };
+  const lerp = (a,b,t)=>a+(b-a)*t;
+
+  // pill geometry
+  const PILL_MIN = null; // computed from CSS at runtime
+  let baseWidth = 0;
+  function measure(){
+    // widest resting width of the pill (idle state)
+    pill.style.width = '';
+    baseWidth = pill.getBoundingClientRect().height * 3.4;
+  }
+  measure();
+  window.addEventListener('resize', measure);
+
+  function update(p){
+    // --- 1. text wipe: "that matters" turns from gray to black ---
+    const textT = smooth(0.10, 0.42, p);
+    fill.style.width = (textT*100) + '%';
+
+    // --- 2. pill -> circle -> pill, with a full black fill mid-scroll ---
+    const morphT   = smooth(0.05, 0.34, p);   // pill closes into a circle
+    const holdT    = smooth(0.34, 0.62, p);   // stays a dark circle while thumbs flash
+    const reopenT  = smooth(0.78, 1.00, p);   // opens back into a pill at the end
+
+    const circleSize = pill.getBoundingClientRect().height;
+    const width = lerp(baseWidth, circleSize, morphT) * (1 - reopenT) + baseWidth*reopenT;
+    pill.style.width = width + 'px';
+
+    const bgT = clamp(holdT - reopenT, 0, 1);
+    pill.style.background = bgT > 0
+      ? `color-mix(in srgb, #0a0a0a ${bgT*100}%, #f2f2f0)`
+      : '#f2f2f0';
+    asterisk.style.color = bgT > 0.5 ? '#fff' : '#0a0a0a';
+    asterisk.style.transform = `rotate(${p*540}deg) scale(${1 + morphT*0.15})`;
+
+    // --- 3. thumbnails flash across the icon mid-scroll ---
+    const spanStart = 0.36, spanEnd = 0.80;
+    const n = thumbs.length;
+    thumbs.forEach((img,i)=>{
+      const s = spanStart + (i/n)*(spanEnd-spanStart);
+      const e = s + (spanEnd-spanStart)/n;
+      const mid = (s+e)/2;
+      const inT  = smooth(s, mid, p);
+      const outT = smooth(mid, e, p);
+      const visible = inT - outT;
+      img.style.opacity = visible;
+      const scale = lerp(.4, 1, inT) - outT*0.25;
+      const rise  = lerp(14, -14, clamp((p-s)/(e-s),0,1));
+      img.style.transform = `translate(-50%,-50%) translateY(${rise}px) scale(${Math.max(scale,0)})`;
+    });
+
+    // --- 4. scroll hint fades once the story starts ---
+    hint.style.opacity = p < 0.06 ? 1 : 0;
+  }
+
+  function onScroll(){
+    const rect  = stage.getBoundingClientRect();
+    const total = stage.offsetHeight - window.innerHeight;
+    const scrolled = -rect.top;
+    const p = clamp(total > 0 ? scrolled/total : 0, 0, 1);
+    update(p);
+  }
+
+  let ticking = false;
+  window.addEventListener('scroll', ()=>{
+    if(!ticking){
+      requestAnimationFrame(()=>{ onScroll(); ticking = false; });
+      ticking = true;
+    }
+  }, { passive:true });
+
+  window.addEventListener('load', onScroll);
+  onScroll();
+})();
+</script>
+</body>
+</html>

@@ -806,6 +806,151 @@ button, input, textarea {
   transition: all 0.3s ease;
 }
 
+/* --- Pinned Interactive Scroll Hero Section --- */
+.scroll-hero-stage {
+  position: relative;
+  height: 380vh;
+  background-color: #ffffff;
+  z-index: 10;
+}
+
+.scroll-hero-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: #ffffff;
+}
+
+.scroll-hero-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(8px, 1.8vw, 26px);
+  white-space: nowrap;
+  font-weight: 800;
+  font-size: clamp(26px, 7.5vw, 124px);
+  letter-spacing: -0.035em;
+  line-height: 1;
+  color: var(--_colors-plates---primary);
+  user-select: none;
+  padding: 0 16px;
+  max-width: 100vw;
+  box-sizing: border-box;
+}
+
+.scroll-hero-word {
+  display: inline-block;
+  font-family: 'Satoshi', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* "that matters" wipe reveal effect */
+.scroll-hero-wipe {
+  position: relative;
+  display: inline-block;
+  color: #d1d5db;
+}
+
+.scroll-hero-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0%;
+  overflow: hidden;
+  color: var(--_colors-plates---primary);
+  white-space: nowrap;
+  will-change: width;
+}
+
+/* Morphing Pill and Asterisk */
+.scroll-hero-icon-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: clamp(38px, 7.2vw, 104px);
+}
+
+.scroll-hero-pill {
+  position: relative;
+  height: 100%;
+  width: clamp(38px, 7.2vw, 104px);
+  border-radius: 999px;
+  background-color: #f1f2f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  will-change: width, background-color;
+  transition: background-color 0.15s ease;
+}
+
+.scroll-hero-asterisk {
+  position: relative;
+  z-index: 3;
+  width: 44%;
+  height: 44%;
+  color: var(--_colors-plates---primary);
+  transform-origin: center;
+  will-change: transform, color;
+  transition: color 0.2s ease;
+}
+
+/* Thumbnail preview cards that flash across */
+.scroll-hero-thumb {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: clamp(60px, 11vw, 150px);
+  height: clamp(60px, 11vw, 150px);
+  border-radius: clamp(12px, 2.2vw, 24px);
+  object-fit: cover;
+  transform: translate(-50%, -50%) scale(0.3);
+  opacity: 0;
+  box-shadow: 0 20px 45px -12px rgba(0, 0, 0, 0.35);
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+
+/* Scroll Hint at bottom */
+.scroll-hero-hint {
+  position: absolute;
+  bottom: 34px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #94a3b8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.scroll-hero-hint-line {
+  width: 1.5px;
+  height: 26px;
+  background: linear-gradient(#94a3b8, transparent);
+  border-radius: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-hero-pill,
+  .scroll-hero-asterisk,
+  .scroll-hero-thumb,
+  .scroll-hero-fill {
+    transition: none !important;
+  }
+}
+
 /* --- Hero / Banner Section --- */
 .section.banner {
   padding-top: 150px;
