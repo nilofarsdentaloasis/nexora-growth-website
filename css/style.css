@@ -985,8 +985,8 @@ button, input, textarea {
 
 /* --- Hero Details Section (Placed Below Scroll Animation - Center Aligned & Black Text) --- */
 .hero-details-section {
-  padding-top: 26px;
-  padding-bottom: 36px;
+  padding-top: 13px;
+  padding-bottom: 18px;
   background-color: #ffffff;
   position: relative;
   overflow: hidden;
@@ -4018,8 +4018,8 @@ button, input, textarea {
 
   /* --- Hero Details Section on Mobile (Reduced Padding, Small Side-by-Side Buttons) --- */
   .hero-details-section {
-    padding-top: 15px !important;
-    padding-bottom: 22px !important;
+    padding-top: 8px !important;
+    padding-bottom: 11px !important;
     text-align: center;
   }
 
