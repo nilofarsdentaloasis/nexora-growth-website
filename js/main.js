@@ -642,31 +642,42 @@ document.addEventListener('DOMContentLoaded', () => {
     function update(p) {
       const isMobile = window.innerWidth <= 767;
 
-      // --- 1. Mobile Dynamic Adaptation: "Growth" covers screen initially, "that matters" comes in and auto-scales down ---
       if (isMobile) {
-        const entryT = smooth(0.04, 0.38, p);
-        const textT  = smooth(0.38, 0.68, p);
+        // --- Mobile: Words complete display early, animation stops there, and user scrolls further ---
+        const entryT = smooth(0.02, 0.32, p);
+        const textT  = smooth(0.08, 0.34, p);
 
-        // "that matters" enters smoothly
+        // "that matters" enters and reveals completely by p = 0.34
         wipe.style.opacity = entryT;
-        wipe.style.transform = `translateX(${(1 - entryT) * 32}px)`;
-        wipe.style.maxWidth = `${entryT * wipeNaturalWidth}px`;
-
-        // Calculate dynamic scale so "Growth" + icon covers mobile width initially (~86%),
-        // and when "that matters" enters, the full phrase scales down to fit the mobile screen comfortably.
-        const leadWidth = (lead ? lead.offsetWidth : 120);
-        const pillInitialW = baseWidth || 70;
-        const initialCombined = leadWidth + pillInitialW + 16;
-        const initialScale = clamp((window.innerWidth * 0.86) / Math.max(1, initialCombined), 1.25, 1.75);
-
-        const fullCombined = leadWidth + pillInitialW + wipeNaturalWidth + 28;
-        const finalScale = clamp((window.innerWidth * 0.90) / Math.max(1, fullCombined), 0.78, 1.05);
-
-        const currentScale = lerp(initialScale, finalScale, entryT);
-        row.style.transform = `scale(${currentScale})`;
-
-        // Text wipe for "that matters"
+        wipe.style.transform = `translateY(${(1 - entryT) * 14}px)`;
+        wipe.style.maxWidth = entryT >= 0.32 ? 'none' : `${entryT * wipeNaturalWidth}px`;
         fill.style.width = (textT * 100) + '%';
+        row.style.transform = 'none';
+
+        // Pill & Asterisk complete their rotation and morph by p = 0.34
+        const morphT = smooth(0.02, 0.26, p);
+        const circleSize = pill.getBoundingClientRect().height;
+        const width = lerp(baseWidth, circleSize, morphT);
+        pill.style.width = width + 'px';
+
+        const bgT = smooth(0.12, 0.30, p);
+        if (bgT > 0) {
+          if (window.CSS && CSS.supports && CSS.supports('color', 'color-mix(in srgb, black, white)')) {
+            pill.style.backgroundColor = `color-mix(in srgb, #0f172a ${bgT * 100}%, #f1f2f6)`;
+          } else {
+            pill.style.backgroundColor = bgT > 0.5 ? '#0f172a' : '#f1f2f6';
+          }
+        } else {
+          pill.style.backgroundColor = '#f1f2f6';
+        }
+
+        asterisk.style.color = bgT > 0.5 ? '#ffffff' : '#0f172a';
+        asterisk.style.transform = `rotate(${Math.min(p / 0.34, 1) * 360}deg)`;
+
+        // Fade scroll hint early
+        if (hint) {
+          hint.style.opacity = p < 0.03 ? '1' : '0';
+        }
       } else {
         // Desktop view: natural flow with smooth text wipe
         row.style.transform = 'none';
@@ -676,34 +687,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const textT = smooth(0.12, 0.45, p);
         fill.style.width = (textT * 100) + '%';
-      }
 
-      // --- 2. Clean Wheel Morphing & Asterisk Rotation (No distracting preview images) ---
-      const morphT   = smooth(0.05, 0.34, p);
-      const holdT    = smooth(0.34, 0.62, p);
-      const reopenT  = smooth(0.78, 1.00, p);
+        // Desktop pill morphing & 540deg rotation
+        const morphT   = smooth(0.05, 0.34, p);
+        const holdT    = smooth(0.34, 0.62, p);
+        const reopenT  = smooth(0.78, 1.00, p);
 
-      const circleSize = pill.getBoundingClientRect().height;
-      const width = lerp(baseWidth, circleSize, morphT) * (1 - reopenT) + baseWidth * reopenT;
-      pill.style.width = width + 'px';
+        const circleSize = pill.getBoundingClientRect().height;
+        const width = lerp(baseWidth, circleSize, morphT) * (1 - reopenT) + baseWidth * reopenT;
+        pill.style.width = width + 'px';
 
-      const bgT = clamp(holdT - reopenT, 0, 1);
-      if (bgT > 0) {
-        if (window.CSS && CSS.supports && CSS.supports('color', 'color-mix(in srgb, black, white)')) {
-          pill.style.backgroundColor = `color-mix(in srgb, #0f172a ${bgT * 100}%, #f1f2f6)`;
+        const bgT = clamp(holdT - reopenT, 0, 1);
+        if (bgT > 0) {
+          if (window.CSS && CSS.supports && CSS.supports('color', 'color-mix(in srgb, black, white)')) {
+            pill.style.backgroundColor = `color-mix(in srgb, #0f172a ${bgT * 100}%, #f1f2f6)`;
+          } else {
+            pill.style.backgroundColor = bgT > 0.5 ? '#0f172a' : '#f1f2f6';
+          }
         } else {
-          pill.style.backgroundColor = bgT > 0.5 ? '#0f172a' : '#f1f2f6';
+          pill.style.backgroundColor = '#f1f2f6';
         }
-      } else {
-        pill.style.backgroundColor = '#f1f2f6';
-      }
 
-      asterisk.style.color = bgT > 0.5 ? '#ffffff' : '#0f172a';
-      asterisk.style.transform = `rotate(${p * 540}deg) scale(${1 + morphT * 0.15})`;
+        asterisk.style.color = bgT > 0.5 ? '#ffffff' : '#0f172a';
+        asterisk.style.transform = `rotate(${p * 540}deg) scale(${1 + morphT * 0.15})`;
 
-      // --- 3. Scroll Hint Fade ---
-      if (hint) {
-        hint.style.opacity = p < 0.05 ? '1' : '0';
+        if (hint) {
+          hint.style.opacity = p < 0.05 ? '1' : '0';
+        }
       }
     }
 

@@ -3670,9 +3670,9 @@ button, input, textarea {
   }
 
   .navbar-logo.left-corner .navbar-logo-image {
-    height: 38px;
+    height: 52px;
     width: auto;
-    max-width: 145px;
+    max-width: 195px;
     display: block;
     margin: 0 auto;
   }
@@ -3704,47 +3704,110 @@ button, input, textarea {
     display: flex;
   }
 
-  /* --- Hero Details Section on Mobile (Center Aligned, Black Text) --- */
+  /* --- Mobile Scroll Hero: Reduced Padding & Doubled Font Size --- */
+  .scroll-hero-stage {
+    height: 150vh !important;
+  }
+
+  .scroll-hero-sticky {
+    height: 60vh !important;
+    min-height: 320px !important;
+    padding-top: 70px !important;
+    padding-bottom: 10px !important;
+  }
+
+  .scroll-hero-row {
+    font-size: clamp(48px, 12.5vw, 62px) !important; /* Doubled font size */
+    gap: 10px !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    row-gap: 4px !important;
+    line-height: 1.05 !important;
+    padding: 0 10px !important;
+  }
+
+  .scroll-hero-icon-wrap {
+    height: clamp(46px, 11vw, 56px) !important;
+  }
+
+  .scroll-hero-pill {
+    height: 100% !important;
+    width: clamp(46px, 11vw, 56px) !important;
+  }
+
+  .scroll-hero-hint {
+    bottom: 12px !important;
+  }
+
+  /* --- Hero Details Section on Mobile (Reduced Padding, Small Side-by-Side Buttons) --- */
   .hero-details-section {
-    padding-top: 30px;
-    padding-bottom: 60px;
+    padding-top: 15px !important;
+    padding-bottom: 45px !important;
     text-align: center;
+  }
+
+  .banner-subtitle-wrapper {
+    margin-bottom: 12px !important;
   }
 
   .hero-details-title {
-    font-size: 32px;
-    line-height: 1.22;
+    font-size: 28px !important;
+    line-height: 1.25 !important;
     color: #000000 !important;
-    margin-bottom: 16px;
-    text-align: center;
+    margin-bottom: 12px !important;
+    text-align: center !important;
   }
 
   .hero-details-description {
-    font-size: 16px;
-    line-height: 1.55;
+    font-size: 15px !important;
+    line-height: 1.5 !important;
     color: #1f2937 !important;
-    margin-bottom: 28px;
-    text-align: center;
+    margin-bottom: 22px !important;
+    text-align: center !important;
   }
 
+  /* Buttons Small & Adjusted Side by Side on Mobile */
   .hero-details-button-wrapper {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
-    width: 100%;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 10px !important;
+    width: 100% !important;
+    flex-wrap: nowrap !important;
   }
 
   .hero-details-button-wrapper .primary-button {
-    width: 100%;
-    text-align: center;
+    width: auto !important;
+    flex: 0 1 auto !important;
+  }
+
+  .hero-details-button-wrapper .primary-button-inner {
+    padding: 10px 18px !important;
+    font-size: 13px !important;
   }
 
   .hero-details-button-wrapper .banner-video-button {
-    width: 100%;
-    justify-content: center;
+    width: auto !important;
+    flex: 0 1 auto !important;
+    gap: 8px !important;
+    padding: 6px 14px !important;
+    border-radius: 100px !important;
+    background-color: #f1f2f6 !important;
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  }
+
+  .hero-details-button-wrapper .banner-video-button-wrap {
+    width: 28px !important;
+    height: 28px !important;
+  }
+
+  .hero-details-button-wrapper .banner-video-button-wrap svg {
+    width: 11px !important;
+    height: 11px !important;
   }
 
   .hero-details-button-wrapper .banner-video-button-text {
+    font-size: 13px !important;
     color: #000000 !important;
   }
 
