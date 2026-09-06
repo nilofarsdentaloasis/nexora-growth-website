@@ -821,9 +821,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const textWrap = document.getElementById('textWrap');
   const dotsEl = document.getElementById('dots');
   const pinOuter = document.getElementById('process');
-  const progressFill = document.getElementById('progressFill');
-  const processPrevBtn = document.getElementById('processPrevBtn');
-  const processNextBtn = document.getElementById('processNextBtn');
 
   if (track && pinOuter) {
     let active = 0;
@@ -852,6 +849,25 @@ document.addEventListener('DOMContentLoaded', () => {
       track.appendChild(card);
     });
 
+    // Touch swipe support for smooth mobile interaction
+    let touchStartX = 0;
+    let touchStartY = 0;
+    track.addEventListener('touchstart', (e) => {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+    track.addEventListener('touchend', (e) => {
+      const diffX = touchStartX - e.changedTouches[0].clientX;
+      const diffY = touchStartY - e.changedTouches[0].clientY;
+      if (Math.abs(diffX) > 40 || Math.abs(diffY) > 40) {
+        if (diffX > 40 || diffY > 40) {
+          scrollToSlide(active + 1);
+        } else {
+          scrollToSlide(active - 1);
+        }
+      }
+    }, { passive: true });
+
     // Build dots
     if (dotsEl) {
       dotsEl.innerHTML = '';
@@ -871,13 +887,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const sectionTop = pinOuter.getBoundingClientRect().top + window.pageYOffset;
       const targetY = sectionTop + targetProgress * total;
       window.scrollTo({ top: targetY, behavior: 'smooth' });
-    }
-
-    if (processPrevBtn) {
-      processPrevBtn.addEventListener('click', () => scrollToSlide(active - 1));
-    }
-    if (processNextBtn) {
-      processNextBtn.addEventListener('click', () => scrollToSlide(active + 1));
     }
 
     function renderCards() {
@@ -934,11 +943,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         const raw = -rect.top / total;
         const progress = Math.max(0, Math.min(1, raw));
-
-        if (progressFill) {
-          progressFill.style.width = (progress * 100) + '%';
-        }
-
         const index = Math.round(progress * (n - 1));
         setActive(index);
 
