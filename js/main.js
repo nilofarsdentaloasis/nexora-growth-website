@@ -985,21 +985,25 @@ document.addEventListener('DOMContentLoaded', () => {
   function initHero() {
     const hero        = document.querySelector('.hero');
     const content     = document.getElementById('heroContent');
-    const badge       = document.getElementById('heroBadge');
-    const headline    = document.getElementById('heroHeadline');
-    const words       = headline ? headline.querySelectorAll('.hero-word') : [];
-    const subtext     = document.getElementById('heroSubtext');
-    const buttons     = document.getElementById('heroButtons');
-    const stats       = document.getElementById('heroStats');
-    const scrollHint  = document.getElementById('heroScrollHint');
+    const badge          = document.getElementById('heroBadge');
+    const heroMobileLogo = document.getElementById('heroMobileLogo');
+    const headline       = document.getElementById('heroHeadline');
+    const words          = headline ? headline.querySelectorAll('.hero-word') : [];
+    const subtext        = document.getElementById('heroSubtext');
+    const buttons        = document.getElementById('heroButtons');
+    const stats          = document.getElementById('heroStats');
+    const scrollHint     = document.getElementById('heroScrollHint');
 
     if (!hero) return;
 
     // ── 1. Entrance animations (triggered shortly after load) ──
     function playEntrance() {
-      // Badge
+      // Badge / Mobile Logo
       if (badge) {
         setTimeout(() => badge.classList.add('hero-animated'), 120);
+      }
+      if (heroMobileLogo) {
+        setTimeout(() => heroMobileLogo.classList.add('hero-animated'), 120);
       }
       // Words (staggered via CSS custom property --i)
       words.forEach(w => {

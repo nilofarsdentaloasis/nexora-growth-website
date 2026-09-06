@@ -465,6 +465,11 @@ section[id] {
 }
 
 
+/* ── Mobile Hero Logo (replaces 'NEXORA GROWTH' text badge on mobile) ── */
+.hero-mobile-logo-wrap {
+  display: none;
+}
+
 /* ── Badge pill ── */
 .hero-badge {
   display: inline-flex;
@@ -504,6 +509,39 @@ section[id] {
 @keyframes badgePulse {
   0%, 100% { opacity: 1; transform: scale(1); }
   50%       { opacity: 0.4; transform: scale(0.7); }
+}
+
+@media (max-width: 768px) {
+  /* On mobile: remove the 'NEXORA GROWTH' text badge */
+  .hero-badge {
+    display: none !important;
+  }
+
+  /* On mobile: display prominent, clearly visible logo above text */
+  .hero-mobile-logo-wrap {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 24px;
+    width: 100%;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.1s, transform 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.1s;
+  }
+
+  .hero-mobile-logo-wrap.hero-animated {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .hero-mobile-logo-img {
+    width: clamp(210px, 64vw, 290px);
+    height: auto;
+    max-height: 90px;
+    object-fit: contain;
+    filter: brightness(0) invert(1) drop-shadow(0 4px 20px rgba(0, 242, 254, 0.45));
+    display: block;
+  }
 }
 
 /* ── Headline ── */
