@@ -1066,6 +1066,15 @@ document.addEventListener('DOMContentLoaded', () => {
       const drift = progress * heroH * 0.22;
       content.style.transform = `translateY(-${drift}px)`;
 
+      // Mobile Logo Zoom Effect: Big on open (1.0), zooms out to 50% (0.5) as user scrolls
+      if (heroMobileLogo) {
+        const zoomThreshold = 260;
+        const zoomProgress = Math.min(scrolled / zoomThreshold, 1);
+        const scale = 1 - (zoomProgress * 0.5); // smoothly scales 1.0 -> 0.5
+        heroMobileLogo.style.transform = `scale(${scale})`;
+        heroMobileLogo.style.transformOrigin = 'center top';
+      }
+
       // Fade hint when scrolling starts
       if (scrollHint) {
         scrollHint.style.opacity = progress > 0.04 ? '0' : '1';
