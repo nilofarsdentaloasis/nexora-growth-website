@@ -947,6 +947,29 @@ button, input, textarea {
   }
 }
 
+/* --- Hero Logo above animation --- */
+.scroll-hero-logo-wrap {
+  display: none; /* hidden on desktop; shown on mobile via media query */
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 14px;
+  opacity: 0;
+  animation: heroLogoFadeIn 0.6s ease 0.1s forwards;
+}
+
+.scroll-hero-logo-img {
+  height: 52px;
+  width: auto;
+  max-width: 200px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 10px rgba(0,0,0,0.1));
+}
+
+@keyframes heroLogoFadeIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 /* --- Hero Details Section (Placed Below Scroll Animation - Center Aligned & Black Text) --- */
 .hero-details-section {
   padding-top: 26px;
@@ -1014,30 +1037,76 @@ button, input, textarea {
   flex-wrap: wrap;
 }
 
+/* ── Glass "Let's Talk" button ── */
 .banner-video-button {
   display: flex;
   align-items: center;
   gap: 12px;
   cursor: pointer;
   text-decoration: none;
+  padding: 10px 22px 10px 10px;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  box-shadow:
+    0 4px 18px rgba(0, 0, 0, 0.08),
+    0 1px 0 rgba(255,255,255,0.9) inset;
+  transition: transform 0.28s cubic-bezier(0.2,0.8,0.2,1),
+              box-shadow 0.28s ease,
+              background 0.28s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* shine streak on glass button */
+.banner-video-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -80%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    105deg,
+    transparent 35%,
+    rgba(255,255,255,0.55) 50%,
+    transparent 65%
+  );
+  transition: left 0.5s ease;
+  pointer-events: none;
+}
+
+.banner-video-button:hover::before {
+  left: 120%;
+}
+
+.banner-video-button:hover {
+  transform: translateY(-3px);
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow:
+    0 10px 32px rgba(0, 0, 0, 0.12),
+    0 1px 0 rgba(255,255,255,1) inset;
 }
 
 .banner-video-button-wrap {
-  width: 48px;
-  height: 48px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  background-color: var(--_colors-plates---light-gray);
-  border: 1px solid var(--_colors-plates---border);
+  background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(241,242,246,0.8) 100%);
+  border: 1px solid rgba(255,255,255,0.85);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.3s ease, background-color 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  flex-shrink: 0;
 }
 
 .banner-video-button:hover .banner-video-button-wrap {
-  transform: scale(1.08);
-  background-color: #ffffff;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  transform: scale(1.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.14);
 }
 
 .banner-video-button-icon {
@@ -1149,10 +1218,25 @@ button, input, textarea {
 .company-section {
   padding-top: 20px;
   padding-bottom: 24px;
-  border-top: 1px dashed var(--_colors-plates---border);
-  border-bottom: 1px dashed var(--_colors-plates---border);
+  /* Remove dotted separators; use soft fade blend at top */
+  border-top: none;
+  border-bottom: none;
   background-color: #ffffff;
   overflow: hidden;
+  position: relative;
+}
+
+/* Fade gradient from hero section into company section */
+.company-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.0), rgba(255,255,255,1));
+  pointer-events: none;
+  z-index: 1;
 }
 
 .company-subtitle-wrapper {
@@ -3651,29 +3735,80 @@ button, input, textarea {
     top: 68px;
     left: 0;
     right: 0;
-    background-color: #ffffff;
+    /* Glass morphism with shine */
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
     flex-direction: column;
     align-items: stretch;
-    padding: 24px;
-    gap: 8px;
-    border-radius: 0;
-    border-top: 1px solid var(--_colors-plates---border);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    padding: 20px 20px 28px;
+    gap: 6px;
+    border-radius: 0 0 24px 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.6);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow:
+      0 20px 50px rgba(0, 0, 0, 0.12),
+      0 1px 0 rgba(255, 255, 255, 0.9) inset,
+      0 -1px 0 rgba(255, 255, 255, 0.4) inset;
     max-height: calc(100vh - 68px);
     overflow-y: auto;
+    overflow-x: hidden;
     display: none;
     width: 100%;
+    /* Slide-down animation */
+    transform: translateY(-10px);
+    opacity: 0;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+  }
+
+  .nav-menu.active {
+    display: flex;
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  /* Shine streak on the glass menu */
+  .nav-menu::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -60%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+      105deg,
+      transparent 40%,
+      rgba(255, 255, 255, 0.55) 50%,
+      transparent 60%
+    );
+    animation: glassShine 4s ease-in-out infinite;
+    pointer-events: none;
+    border-radius: 0 0 24px 24px;
+  }
+
+  @keyframes glassShine {
+    0%   { left: -60%; }
+    50%  { left: 120%; }
+    100% { left: 120%; }
   }
 
   .navbar-center-pill .nav-link,
   .nav-link {
     width: 100%;
-    padding: 12px 18px;
-    border-radius: 10px;
+    padding: 13px 18px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    color: var(--_colors-plates---primary);
+    transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
   }
 
-  .nav-menu.active {
-    display: flex;
+  .navbar-center-pill .nav-link:hover,
+  .nav-link:hover {
+    background: rgba(255, 255, 255, 0.75);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    transform: translateX(4px);
+    color: var(--_colors-plates---secondary);
   }
 
   .navbar-connect-btn {
@@ -3762,28 +3897,28 @@ button, input, textarea {
     --section-gap: 30px;
   }
 
-  /* --- Mobile Header: Center Logo & Hide Connect Button --- */
+  /* --- Mobile Header: Logo RIGHT corner, Hamburger LEFT --- */
   .navbar-full-container {
     position: relative;
     justify-content: space-between;
     align-items: center;
+    flex-direction: row-reverse; /* hamburger left, logo right */
   }
 
   .navbar-logo.left-corner {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+    position: static;
+    transform: none;
     margin: 0;
-    padding: 0;
+    padding: 4px 0;
     z-index: 10;
+    flex-shrink: 0;
   }
 
   .navbar-logo.left-corner .navbar-logo-image {
-    height: 52px;
+    height: 44px;
     width: auto;
-    max-width: 195px;
+    max-width: 170px;
     display: block;
-    margin: 0 auto;
   }
 
   /* Remove "Let's Get Connected" button from header on mobile */
@@ -3792,8 +3927,9 @@ button, input, textarea {
   }
 
   .navbar-right-actions {
-    margin-left: auto;
+    margin-left: 0;
     gap: 0;
+    flex-shrink: 0;
   }
 
   .menu-button {
@@ -3814,14 +3950,25 @@ button, input, textarea {
   }
 
   /* --- Mobile Scroll Hero: Comfortable Pacing, Reduced Padding & Doubled Font Size --- */
+  /* Show logo above animation on mobile */
+  .scroll-hero-logo-wrap {
+    display: flex !important;
+    margin-bottom: 10px !important;
+  }
+
+  .scroll-hero-logo-img {
+    height: 44px !important;
+    max-width: 170px !important;
+  }
+
   .scroll-hero-stage {
     height: 250vh !important; /* Smooth comfortable scroll travel distance */
   }
 
   .scroll-hero-sticky {
-    height: 65vh !important;
-    min-height: 330px !important;
-    padding-top: 70px !important;
+    height: 70vh !important;
+    min-height: 340px !important;
+    padding-top: 60px !important;
     padding-bottom: 10px !important;
   }
 
@@ -3899,10 +4046,13 @@ button, input, textarea {
     width: auto !important;
     flex: 0 1 auto !important;
     gap: 8px !important;
-    padding: 6px 14px !important;
+    padding: 6px 14px 6px 6px !important;
     border-radius: 100px !important;
-    background-color: #f1f2f6 !important;
-    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    /* Keep glass effect — just ensure it works at small size */
+    background: rgba(255, 255, 255, 0.6) !important;
+    backdrop-filter: blur(14px) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.75) !important;
   }
 
   .hero-details-button-wrapper .banner-video-button-wrap {
@@ -3919,6 +4069,7 @@ button, input, textarea {
     font-size: 13px !important;
     color: #000000 !important;
   }
+
 
   .connect-btn-icon {
     font-size: 13px;
