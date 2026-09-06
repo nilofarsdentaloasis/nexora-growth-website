@@ -937,6 +937,19 @@ button, input, textarea {
   border-radius: 2px;
 }
 
+/* Down arrow icon inside scroll hint */
+.scroll-hero-arrow {
+  width: 28px;
+  height: 28px;
+  color: #94a3b8;
+  animation: arrowBounce 1.8s ease-in-out infinite;
+}
+
+@keyframes arrowBounce {
+  0%, 100% { transform: translateY(0); opacity: 0.7; }
+  50%       { transform: translateY(6px); opacity: 1; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .scroll-hero-pill,
   .scroll-hero-asterisk,
@@ -3969,8 +3982,8 @@ button, input, textarea {
   .scroll-hero-sticky {
     height: 100vh !important;
     min-height: 520px !important;
-    padding-top: 14px !important;
-    padding-bottom: 70px !important; /* keep clear of SCROLL hint */
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
   }
 
   .scroll-hero-row {
@@ -3993,7 +4006,14 @@ button, input, textarea {
   }
 
   .scroll-hero-hint {
-    bottom: 20px !important;
+    bottom: 24px !important;
+    left: 24px !important;
+    transform: none !important;
+  }
+
+  .scroll-hero-arrow {
+    width: 32px !important;
+    height: 32px !important;
   }
 
   /* --- Hero Details Section on Mobile (Reduced Padding, Small Side-by-Side Buttons) --- */
