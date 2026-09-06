@@ -1,0 +1,17 @@
+# Dependencies & environment
+node_modules/
+.env
+.env.local
+
+# Operating system files
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# IDE / Antigravity workspace files
+.agents/
+.vscode/
+.idea/
+
+# Screen recordings
+*.mp4

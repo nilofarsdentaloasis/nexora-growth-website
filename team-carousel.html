@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Team Carousel — Scroll Driven</title>
+<style>
+  :root{
+    --navy:#16336e;
+    --bg:#f4f5f7;
+    --line:#16336e;
+  }
+  *{box-sizing:border-box;}
+  html,body{ margin:0; }
+  body{
+    background:var(--bg);
+    font-family:'Georgia',serif;
+  }
+
+  /* ---------- filler sections, just to demonstrate real page scroll ---------- */
+  .filler{
+    height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    color:#9aa2b1;
+    font-family:Arial,Helvetica,sans-serif;
+    font-size:14px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+  }
+
+  /* ---------- pinned scroll section ---------- */
+  .pin-outer{
+    position:relative;
+    /* height is set in JS: viewport-heights of scroll travel across all slides */
+  }
+  .pin-inner{
+    position:sticky;
+    top:0;
+    height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+  }
+
+  .widget{
+    display:flex;
+    align-items:center;
+    gap:70px;
+    max-width:980px;
+    width:100%;
+    padding:40px;
+  }
+
+  /* ---------- LEFT: vertical stack carousel ---------- */
+  .stage{
+    position:relative;
+    width:440px;
+    height:230px;
+    flex-shrink:0;
+  }
+
+  .track{
+    position:absolute;
+    left:0;
+    top:0;
+    width:100%;
+  }
+
+  .card{
+    position:absolute;
+    left:0;
+    width:100%;
+    height:230px;
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 18px 40px rgba(20,30,60,.18);
+    transition:
+      transform .5s cubic-bezier(.65,0,.35,1),
+      filter .5s cubic-bezier(.65,0,.35,1),
+      opacity .5s cubic-bezier(.65,0,.35,1);
+    will-change:transform,filter,opacity;
+  }
+
+  .card img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+
+  .card .fallback{
+    width:100%;
+    height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:Arial,Helvetica,sans-serif;
+    font-weight:700;
+    font-size:64px;
+    color:rgba(255,255,255,.92);
+    letter-spacing:1px;
+  }
+
+  .card[data-pos="0"]{ transform:translateY(0) scale(1);      filter:grayscale(0) brightness(1);   opacity:1;   z-index:5; }
+  .card[data-pos="-1"]{transform:translateY(-190px) scale(.86); filter:grayscale(1) brightness(.75); opacity:1;   z-index:3; }
+  .card[data-pos="1"]{ transform:translateY(190px) scale(.86);  filter:grayscale(1) brightness(.75); opacity:1;   z-index:3; }
+  .card[data-pos="-2"]{transform:translateY(-330px) scale(.78); filter:grayscale(1) brightness(.6);  opacity:0;   z-index:1; }
+  .card[data-pos="2"]{ transform:translateY(330px) scale(.78);  filter:grayscale(1) brightness(.6);  opacity:0;   z-index:1; }
+  .card[data-pos="far"]{transform:translateY(0) scale(.7); filter:grayscale(1); opacity:0; z-index:0; }
+
+  /* ---------- RIGHT: info panel ---------- */
+  .info{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+  }
+
+  .progress-track{
+    width:100%;
+    max-width:220px;
+    height:3px;
+    background:#e1e4ea;
+    border-radius:3px;
+    margin-bottom:38px;
+    align-self:center;
+    overflow:hidden;
+  }
+  .progress-fill{
+    height:100%;
+    background:var(--navy);
+    width:0%;
+    transition:width .1s linear;
+  }
+
+  .text-wrap{
+    min-height:96px;
+  }
+
+  .name-row{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:18px;
+    transition:opacity .3s ease, transform .3s ease;
+  }
+  .name-row .rule{
+    width:48px;
+    height:2px;
+    background:var(--line);
+  }
+  .name{
+    margin:0;
+    font-size:30px;
+    font-weight:700;
+    color:var(--navy);
+    white-space:nowrap;
+  }
+  .role{
+    margin:10px 0 0;
+    font-family:Arial,Helvetica,sans-serif;
+    font-size:13px;
+    letter-spacing:3px;
+    text-transform:uppercase;
+    color:#8a93a6;
+    transition:opacity .3s ease, transform .3s ease;
+  }
+
+  .fading .name-row,
+  .fading .role{
+    opacity:0;
+    transform:translateY(6px);
+  }
+
+  .dots{
+    display:flex;
+    gap:10px;
+    margin-top:30px;
+  }
+  .dot{
+    width:9px;
+    height:9px;
+    border-radius:50%;
+    background:#c7ccd6;
+    border:none;
+    cursor:pointer;
+    padding:0;
+    transition:background .3s ease, transform .3s ease;
+  }
+  .dot.active{
+    background:var(--navy);
+    transform:scale(1.25);
+  }
+
+  @media (max-width:760px){
+    .widget{ flex-direction:column; gap:30px; }
+    .stage{ width:88vw; max-width:400px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .card, .name-row, .role{ transition:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="filler">Scroll down ↓</div>
+
+<section class="pin-outer" id="pinOuter">
+  <div class="pin-inner">
+    <div class="widget">
+      <div class="stage">
+        <div class="track" id="track"></div>
+      </div>
+
+      <div class="info">
+        <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+
+        <div class="text-wrap" id="textWrap">
+          <div class="name-row">
+            <span class="rule"></span>
+            <h2 class="name" id="nameEl"></h2>
+            <span class="rule"></span>
+          </div>
+          <p class="role" id="roleEl"></p>
+        </div>
+
+        <div class="dots" id="dots"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="filler">Rest of your page continues here</div>
+
+<script>
+// ---- Team data (swap `img` for your own photo URLs; falls back to initials) ----
+const members = [
+  { name:"Monkey D. Luffy", role:"Creative Director", color1:"#3aa0e8", color2:"#0b3d67", initials:"ML" },
+  { name:"Luffy Kun",       role:"Marketing Manager",  color1:"#e8433a", color2:"#5c0e0b", initials:"LK" },
+  { name:"Luffy Chan",      role:"Lead Developer",     color1:"#e8a13a", color2:"#7a3d05", initials:"LC" },
+  { name:"Lucy",            role:"UX Designer",        color1:"#3ae8c0", color2:"#0b6754", initials:"L"  },
+  { name:"Roronoa Zoro",    role:"Backend Engineer",   color1:"#4caf50", color2:"#0b3d1a", initials:"RZ" },
+  { name:"Nami",            role:"Product Owner",      color1:"#e87ab8", color2:"#6b0b41", initials:"N"  },
+];
+
+const track = document.getElementById('track');
+const nameEl = document.getElementById('nameEl');
+const roleEl = document.getElementById('roleEl');
+const textWrap = document.getElementById('textWrap');
+const dotsEl = document.getElementById('dots');
+const pinOuter = document.getElementById('pinOuter');
+const progressFill = document.getElementById('progressFill');
+
+let active = 0;
+let lastActive = -1;
+const n = members.length;
+
+// each "unit" of scroll travel = one viewport height; total travel = (n - 1) units + 1 to display
+const SCROLL_UNITS_PER_SLIDE = 1;
+
+function setPinHeight(){
+  pinOuter.style.height = `${(n - 1) * SCROLL_UNITS_PER_SLIDE * 100 + 100}vh`;
+}
+setPinHeight();
+window.addEventListener('resize', setPinHeight);
+
+// build cards
+members.forEach((m, i) => {
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.dataset.index = i;
+  card.style.background = `linear-gradient(135deg, ${m.color1}, ${m.color2})`;
+  card.innerHTML = `<div class="fallback">${m.initials}</div>`;
+  track.appendChild(card);
+});
+
+// build dots (clicking scrolls the page to that slide's position)
+members.forEach((m, i) => {
+  const d = document.createElement('button');
+  d.className = 'dot' + (i === 0 ? ' active' : '');
+  d.setAttribute('aria-label', 'Go to ' + m.name);
+  d.addEventListener('click', () => scrollToSlide(i));
+  dotsEl.appendChild(d);
+});
+
+function scrollToSlide(index){
+  const total = pinOuter.offsetHeight - window.innerHeight;
+  const targetProgress = index / (n - 1);
+  const targetY = pinOuter.offsetTop + targetProgress * total;
+  window.scrollTo({ top: targetY, behavior: 'smooth' });
+}
+
+function render(){
+  const cards = track.querySelectorAll('.card');
+  cards.forEach(card => {
+    const i = parseInt(card.dataset.index, 10);
+    const diff = i - active;
+    let pos;
+    if (diff === 0) pos = "0";
+    else if (diff === 1) pos = "1";
+    else if (diff === -1) pos = "-1";
+    else if (diff === 2) pos = "2";
+    else if (diff === -2) pos = "-2";
+    else pos = "far";
+    card.dataset.pos = pos;
+  });
+
+  const dots = dotsEl.querySelectorAll('.dot');
+  dots.forEach((d, i) => d.classList.toggle('active', i === active));
+}
+
+function updateText(){
+  textWrap.classList.add('fading');
+  setTimeout(() => {
+    nameEl.textContent = members[active].name;
+    roleEl.textContent = members[active].role;
+    textWrap.classList.remove('fading');
+  }, 220);
+}
+
+function setActive(index){
+  active = Math.max(0, Math.min(n - 1, index));
+  render();
+  if (active !== lastActive){
+    updateText();
+    lastActive = active;
+  }
+}
+
+// ---- Scroll-driven progress: works no matter where on the page you scroll ----
+let ticking = false;
+
+function onScroll(){
+  if (ticking) return;
+  ticking = true;
+  requestAnimationFrame(() => {
+    const rect = pinOuter.getBoundingClientRect();
+    const total = pinOuter.offsetHeight - window.innerHeight;
+    // how far we've scrolled into the pinned section, clamped 0..1
+    const raw = -rect.top / total;
+    const progress = Math.max(0, Math.min(1, raw));
+
+    progressFill.style.width = (progress * 100) + '%';
+
+    const index = Math.round(progress * (n - 1));
+    setActive(index);
+
+    ticking = false;
+  });
+}
+
+window.addEventListener('scroll', onScroll, { passive: true });
+
+// init
+nameEl.textContent = members[0].name;
+roleEl.textContent = members[0].role;
+lastActive = 0;
+render();
+onScroll();
+</script>
+
+</body>
+</html>
