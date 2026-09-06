@@ -7,6 +7,24 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.classList.add('page-loaded');
   }, 80);
 
+  // --- Navbar dark-hero awareness ---
+  const navbar = document.querySelector('.navbar');
+  const heroSection = document.querySelector('.hero');
+
+  function updateNavbarTheme() {
+    if (!navbar || !heroSection) return;
+    const heroBottom = heroSection.getBoundingClientRect().bottom;
+    if (heroBottom > 60) {
+      navbar.classList.add('on-dark-hero');
+    } else {
+      navbar.classList.remove('on-dark-hero');
+    }
+  }
+
+  // Set immediately on load
+  updateNavbarTheme();
+  window.addEventListener('scroll', updateNavbarTheme, { passive: true });
+
   // --- Mobile Navigation Toggle ---
   const mobileMenuBtn = document.getElementById('mobile-menu-toggle');
   const mainNavMenu = document.getElementById('main-nav-menu');
