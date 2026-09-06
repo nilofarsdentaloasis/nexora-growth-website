@@ -5273,9 +5273,33 @@ section[id] {
     text-align: center;
   }
 
-  /* --- Mobile Footer Redesign: Compact, No Logo, Side-by-Side Menu --- */
+  /* --- Mobile Footer Redesign: Compact, No Logo Image, Retain NEXORA GROWTH Monument --- */
+  .footer-logo-image-png {
+    display: none !important; /* Removes only the logo image on mobile */
+  }
+
   .footer-bottom-content {
-    display: none !important; /* Removes logo and monument on mobile */
+    display: block !important;
+    padding-top: 10px !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    margin-top: 8px;
+  }
+
+  .footer-brand-monument {
+    padding: 12px 0 6px !important;
+  }
+
+  .footer-brand-title {
+    font-size: clamp(28px, 8.5vw, 42px) !important;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.12) 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+  }
+
+  .footer-brand-tagline {
+    font-size: 9px !important;
+    letter-spacing: 0.16em !important;
+    margin-top: 4px !important;
   }
 
   .section.footer {
