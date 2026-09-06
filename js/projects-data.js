@@ -299,7 +299,7 @@ const NEXORA_PROJECTS = [
     technologies: ["React", "TailwindCSS", "Service Booking", "Google Maps", "Mobile Responsive"],
     client: "We Care Auto Repair",
     year: "2026",
-    liveUrl: "https://www.wecareautorepair.in",
+    liveUrl: "https://www.wecareautorepairs.in",
     featured: true
   },
   {
