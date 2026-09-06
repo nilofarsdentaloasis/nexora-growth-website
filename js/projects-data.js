@@ -19,13 +19,13 @@ const NEXORA_PROJECTS = [
       {
         title: "Dental Practice & Appointment Dashboard Demo",
         poster: "https://images.unsplash.com/photo-1629909613654-28e377c37b09?q=80&w=1200&auto=format&fit=crop",
-        url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+        url: "https://www.w3schools.com/html/mov_bbb.mp4"
       }
     ],
     technologies: ["React", "Node.js", "PostgreSQL", "Express.js", "Docker", "TailwindCSS"],
     client: "SmileCare Dental Network",
     year: "2026",
-    liveUrl: "https://example.com/dental-management",
+    liveUrl: "",
     featured: true
   },
   {
@@ -45,13 +45,13 @@ const NEXORA_PROJECTS = [
       {
         title: "Automobile Plant Leave & Shift Roster Demo",
         poster: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=1200&auto=format&fit=crop",
-        url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyBlazes.mp4"
+        url: "https://www.w3schools.com/html/mov_bbb.mp4"
       }
     ],
     technologies: ["Vue 3", "Node.js", "PostgreSQL", "Redis", "REST APIs", "TailwindCSS"],
     client: "Precision Auto Components Ltd.",
     year: "2026",
-    liveUrl: "https://example.com/automobile-leave-system",
+    liveUrl: "",
     featured: true
   },
   {
@@ -61,23 +61,23 @@ const NEXORA_PROJECTS = [
     tag: "Expense & Fleet Mobility",
     description: "Automated petrol allowance and fuel reimbursement platform with GPS route verification, fuel bill OCR parsing, and multi-tier approval workflows.",
     fullDescription: "Designed for corporate fleets, field sales, and on-site engineering teams to eliminate manual fuel claims and fraudulent mileage reports. The software features automated GPS odometer tracking, instant fuel slip receipt scanning using AI OCR, customizable rate-per-kilometer policies, vehicle fuel-efficiency benchmarking, and direct sync with enterprise payroll systems.",
-    thumbnail: "https://images.unsplash.com/photo-1527018607147-380d6b9ffb57?q=80&w=1000&auto=format&fit=crop",
+    thumbnail: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1000&auto=format&fit=crop",
     images: [
-      "https://images.unsplash.com/photo-1527018607147-380d6b9ffb57?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1506521781263-d8422e82f27a?q=80&w=1200&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=1200&auto=format&fit=crop"
     ],
     videos: [
       {
         title: "Petrol Allowance & Fuel Claim Workflow Demo",
-        poster: "https://images.unsplash.com/photo-1527018607147-380d6b9ffb57?q=80&w=1200&auto=format&fit=crop",
-        url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+        poster: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop",
+        url: "https://www.w3schools.com/html/mov_bbb.mp4"
       }
     ],
     technologies: ["React Native", "Node.js", "PostgreSQL", "Google Maps API", "Tesseract OCR", "TailwindCSS"],
     client: "TransitLogix Mobility Solutions",
     year: "2026",
-    liveUrl: "https://example.com/petrol-allowance",
+    liveUrl: "",
     featured: true
   },
   {
@@ -87,23 +87,23 @@ const NEXORA_PROJECTS = [
     tag: "Plant Maintenance & 5S",
     description: "Paperless QR-code-driven digital check sheet platform enabling shop floor operators to scan machine tags, log daily maintenance inspections, and flag breakdowns instantly.",
     fullDescription: "Replaces traditional paper clipboards on factory floors with rapid QR code mobile inspections. Machine operators and maintenance technicians scan tamper-evident QR tags on presses, CNC units, and assembly fixtures to submit daily pre-shift parameter checks, TPM audits, oil pressure readings, safety compliance logs, and real-time maintenance breakdown tickets.",
-    thumbnail: "https://images.unsplash.com/photo-1595079672139-6230f1b63677?q=80&w=1000&auto=format&fit=crop",
+    thumbnail: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=1000&auto=format&fit=crop",
     images: [
-      "https://images.unsplash.com/photo-1595079672139-6230f1b63677?q=80&w=1200&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1200&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1581092160607-ee22621dd758?q=80&w=1200&auto=format&fit=crop"
     ],
     videos: [
       {
         title: "Smart QR Machine Inspection Demo",
-        poster: "https://images.unsplash.com/photo-1595079672139-6230f1b63677?q=80&w=1200&auto=format&fit=crop",
-        url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"
+        poster: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=1200&auto=format&fit=crop",
+        url: "https://www.w3schools.com/html/mov_bbb.mp4"
       }
     ],
     technologies: ["PWA", "React", "Node.js", "MongoDB", "WebSockets", "QR Generator API"],
     client: "Apex Precision Engineering",
     year: "2026",
-    liveUrl: "https://example.com/smart-qr-checksheets",
+    liveUrl: "",
     featured: true
   },
   {
@@ -123,13 +123,13 @@ const NEXORA_PROJECTS = [
       {
         title: "Production Line OEE & Job Card Tracking Demo",
         poster: "https://images.unsplash.com/photo-1565043589221-1a6fd9ae45c7?q=80&w=1200&auto=format&fit=crop",
-        url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4"
+        url: "https://www.w3schools.com/html/mov_bbb.mp4"
       }
     ],
     technologies: ["React", "FastAPI", "PostgreSQL", "Redis", "MQTT IoT", "Chart.js"],
     client: "Bharat Heavy Forge & Precision",
     year: "2026",
-    liveUrl: "https://example.com/production-management",
+    liveUrl: "",
     featured: true
   },
   {
@@ -149,13 +149,13 @@ const NEXORA_PROJECTS = [
       {
         title: "Smart Dispatch & Gate Pass Workflow Demo",
         poster: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=1200&auto=format&fit=crop",
-        url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyBlazes.mp4"
+        url: "https://www.w3schools.com/html/mov_bbb.mp4"
       }
     ],
     technologies: ["Next.js", "Express.js", "PostgreSQL", "E-Way Bill API", "Barcode Scanner SDK"],
     client: "National Logistics & Supply Chain",
     year: "2026",
-    liveUrl: "https://example.com/smart-dispatch",
+    liveUrl: "",
     featured: true
   },
   {
@@ -165,23 +165,23 @@ const NEXORA_PROJECTS = [
     tag: "Polymer & Tooling Inventory",
     description: "Specialized inventory verification and physical audit software tailored for plastic injection moulding units reconciling raw granules, masterbatches, regrind, and moulds.",
     fullDescription: "Developed specifically for plastic injection moulding facilities to conquer raw material shrinkage and tooling misplacement. Features cycle-count verification for virgin polymer resins, masterbatch colorants, and regrind blending ratios. Accurately tracks mould tool life cycles, shot count maintenance thresholds, cavity status, and real-time finished component buffer stocks.",
-    thumbnail: "https://images.unsplash.com/photo-1504917599217-d4dc5ebe6122?q=80&w=1000&auto=format&fit=crop",
+    thumbnail: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=1000&auto=format&fit=crop",
     images: [
-      "https://images.unsplash.com/photo-1504917599217-d4dc5ebe6122?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=1200&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=1200&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1587293852726-70cdb56c2866?q=80&w=1200&auto=format&fit=crop"
     ],
     videos: [
       {
         title: "Polymer Stock Audit & Mould Tooling Tracker Demo",
-        poster: "https://images.unsplash.com/photo-1504917599217-d4dc5ebe6122?q=80&w=1200&auto=format&fit=crop",
-        url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4"
+        poster: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=1200&auto=format&fit=crop",
+        url: "https://www.w3schools.com/html/mov_bbb.mp4"
       }
     ],
     technologies: ["Vue 3", "Node.js", "PostgreSQL", "RFID Integration", "TailwindCSS"],
     client: "PolyMould Tech Industries",
     year: "2026",
-    liveUrl: "https://example.com/stock-verify-moulding",
+    liveUrl: "",
     featured: true
   },
   {
@@ -201,13 +201,13 @@ const NEXORA_PROJECTS = [
       {
         title: "Vendor Portal & PO Fulfillment Demo",
         poster: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1200&auto=format&fit=crop",
-        url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+        url: "https://www.w3schools.com/html/mov_bbb.mp4"
       }
     ],
     technologies: ["Next.js", "Python FastAPI", "PostgreSQL", "Redis", "SendGrid API", "TailwindCSS"],
     client: "OmniParts Global Supply",
     year: "2026",
-    liveUrl: "https://example.com/supplier-management",
+    liveUrl: "",
     featured: true
   },
   {
@@ -227,13 +227,13 @@ const NEXORA_PROJECTS = [
       {
         title: "Auto PDIR Generation & Tolerance Check Demo",
         poster: "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?q=80&w=1200&auto=format&fit=crop",
-        url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"
+        url: "https://www.w3schools.com/html/mov_bbb.mp4"
       }
     ],
     technologies: ["React", "Python", "PDFKit", "NumPy Statistics", "PostgreSQL", "TailwindCSS"],
     client: "Matrix Automotive Quality Labs",
     year: "2026",
-    liveUrl: "https://example.com/auto-pdir-generator",
+    liveUrl: "",
     featured: true
   },
   {
@@ -253,13 +253,13 @@ const NEXORA_PROJECTS = [
       {
         title: "Biometric Attendance & Overtime Master Demo",
         poster: "https://images.unsplash.com/photo-1557597774-9d273605dfa9?q=80&w=1200&auto=format&fit=crop",
-        url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4"
+        url: "https://www.w3schools.com/html/mov_bbb.mp4"
       }
     ],
     technologies: ["React", "Node.js", "ZKTeco SDK", "PostgreSQL", "Redis", "TailwindCSS"],
     client: "Pinnacle Industrial Conglomerate",
     year: "2026",
-    liveUrl: "https://example.com/smart-attendance-master",
+    liveUrl: "",
     featured: true
   },
   {
@@ -289,9 +289,9 @@ const NEXORA_PROJECTS = [
     tag: "Auto Care Field",
     description: "Professional auto repair website for We Care Auto Repair with car servicing packages, vehicle inspection details, and service slot reservations.",
     fullDescription: "Built for We Care Auto Repair to give customers an easy way to explore car service packages, mechanical repairs, denting/painting, periodic maintenance, and instantly book workshop slots online.",
-    thumbnail: "https://images.unsplash.com/photo-1486006920555-c77dce18193b?q=80&w=1000&auto=format&fit=crop",
+    thumbnail: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?q=80&w=1000&auto=format&fit=crop",
     images: [
-      "https://images.unsplash.com/photo-1486006920555-c77dce18193b?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?q=80&w=1200&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?q=80&w=1200&auto=format&fit=crop",
       "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?q=80&w=1200&auto=format&fit=crop"
     ],
@@ -339,7 +339,7 @@ const NEXORA_PROJECTS = [
     technologies: ["HTML5 / CSS3", "JavaScript", "QR Menu Integration", "WhatsApp Reservation"],
     client: "Gourmet Restaurant & Cafe",
     year: "2026",
-    liveUrl: "https://example.com/restaurant-web",
+    liveUrl: "",
     featured: true
   },
   {
@@ -359,7 +359,7 @@ const NEXORA_PROJECTS = [
     technologies: ["Next.js", "TailwindCSS", "Photo Gallery", "WhatsApp Inquiry"],
     client: "Holiday Resort & Spa",
     year: "2026",
-    liveUrl: "https://example.com/resort-web",
+    liveUrl: "",
     featured: true
   },
   {
@@ -379,7 +379,7 @@ const NEXORA_PROJECTS = [
     technologies: ["React", "Next.js", "Portfolio Gallery", "TailwindCSS"],
     client: "Artisan Space Interior Studio",
     year: "2026",
-    liveUrl: "https://example.com/interior-design-web",
+    liveUrl: "",
     featured: true
   },
   {
@@ -392,19 +392,19 @@ const NEXORA_PROJECTS = [
     thumbnail: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1000&auto=format&fit=crop",
     images: [
       "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1677442136019-21780efad99a?q=80&w=1200&auto=format&fit=crop"
+      "https://images.unsplash.com/photo-1535378917042-10a22c95931a?q=80&w=1200&auto=format&fit=crop"
     ],
     videos: [
       {
         title: "AI Pipeline In Action Demo",
         poster: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop",
-        url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"
+        url: "https://www.w3schools.com/html/mov_bbb.mp4"
       }
     ],
     technologies: ["Python", "LangChain", "OpenAI / Claude APIs", "Pinecone Vector DB", "FastAPI"],
     client: "FinVenture Capital",
     year: "2026",
-    liveUrl: "https://example.com/neuralpulse-ai",
+    liveUrl: "",
     featured: true
   },
   {
@@ -424,7 +424,7 @@ const NEXORA_PROJECTS = [
       {
         title: "AI Podcast Episode Walkthrough",
         poster: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80&w=1200&auto=format&fit=crop",
-        url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+        url: "https://www.w3schools.com/html/mov_bbb.mp4"
       }
     ],
     technologies: ["Runway Gen-3", "Midjourney / LoRA", "ElevenLabs AI Voice", "ComfyUI Pipeline", "DaVinci Resolve"],
@@ -450,13 +450,13 @@ const NEXORA_PROJECTS = [
       {
         title: "Dental Oasis Clinic Video Cut",
         poster: "https://images.unsplash.com/photo-1629909613654-28e377c37b09?q=80&w=1200&auto=format&fit=crop",
-        url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"
+        url: "https://www.w3schools.com/html/mov_bbb.mp4"
       }
     ],
     technologies: ["4K Cinematography", "DaVinci Resolve Color Grading", "Gimbal Motion", "Sound Design", "Social Reel Cuts"],
     client: "Dental Oasis Clinic",
     year: "2026",
-    liveUrl: "https://example.com/dental-oasis-video",
+    liveUrl: "",
     featured: true
   },
   {
@@ -476,13 +476,13 @@ const NEXORA_PROJECTS = [
       {
         title: "Pre-School Activity & Event Highlight Demo",
         poster: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=1200&auto=format&fit=crop",
-        url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4"
+        url: "https://www.w3schools.com/html/mov_bbb.mp4"
       }
     ],
     technologies: ["Adobe Premiere Pro", "After Effects", "Kinetic Typography", "CapCut Pro", "Color Pop Grading"],
     client: "Little Explorers Pre-School Academy",
     year: "2026",
-    liveUrl: "https://example.com/preschool-events-video",
+    liveUrl: "",
     featured: true
   },
   {
@@ -501,7 +501,7 @@ const NEXORA_PROJECTS = [
     technologies: ["Figma", "Illustrator", "Blender 3D", "Brand Tokens", "Design System"],
     client: "Astral Financial Technologies",
     year: "2025",
-    liveUrl: "https://example.com/astral-brand",
+    liveUrl: "",
     featured: false
   },
   {
@@ -521,13 +521,13 @@ const NEXORA_PROJECTS = [
       {
         title: "Dental Patient Growth Campaign Showcase",
         poster: "https://images.unsplash.com/photo-1606811841689-23dfddce3e95?q=80&w=1200&auto=format&fit=crop",
-        url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+        url: "https://www.w3schools.com/html/mov_bbb.mp4"
       }
     ],
     technologies: ["Meta Ads Manager", "Google Maps & Local SEO", "Instagram Growth", "WhatsApp Business API", "Canva & Figma"],
     client: "SmileCare Dental Clinics",
     year: "2026",
-    liveUrl: "https://example.com/dental-marketing",
+    liveUrl: "",
     featured: true
   },
   {
@@ -547,13 +547,13 @@ const NEXORA_PROJECTS = [
       {
         title: "Culinary Reel & Dining Campaign Promo",
         poster: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1200&auto=format&fit=crop",
-        url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"
+        url: "https://www.w3schools.com/html/mov_bbb.mp4"
       }
     ],
     technologies: ["Instagram Food Reels", "Meta Local Ads", "Google Business Profile", "Influencer Collabs", "Zomato/Swiggy CRO"],
     client: "Urban Feast Gourmet Kitchen",
     year: "2026",
-    liveUrl: "https://example.com/restaurant-marketing",
+    liveUrl: "",
     featured: true
   },
   {
@@ -573,13 +573,13 @@ const NEXORA_PROJECTS = [
       {
         title: "Photographer Portfolio & Reel Demo",
         poster: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?q=80&w=1200&auto=format&fit=crop",
-        url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4"
+        url: "https://www.w3schools.com/html/mov_bbb.mp4"
       }
     ],
     technologies: ["Instagram Reels SEO", "Aesthetic Grid Curation", "CapCut & Lightroom", "Meta Boost Campaigns", "DM Booking Automation"],
     client: "VisualCraft Photography",
     year: "2026",
-    liveUrl: "https://example.com/photographer-growth",
+    liveUrl: "",
     featured: true
   },
   {
@@ -599,13 +599,13 @@ const NEXORA_PROJECTS = [
       {
         title: "The Khopoli Resort Scenic Aerial Campaign",
         poster: "https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=1200&auto=format&fit=crop",
-        url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyBlazes.mp4"
+        url: "https://www.w3schools.com/html/mov_bbb.mp4"
       }
     ],
     technologies: ["Meta Ads (Mumbai/Pune Geo-Targeting)", "Google Search Ads", "Drone Cinematography", "WhatsApp Direct Booking", "TripAdvisor & GMB"],
     client: "The Khopoli Resort & Spa",
     year: "2026",
-    liveUrl: "https://example.com/khopoli-resort",
+    liveUrl: "",
     featured: true
   },
   {
@@ -625,13 +625,13 @@ const NEXORA_PROJECTS = [
       {
         title: "Event Showcase & Wedding Gala Campaign Demo",
         poster: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=1200&auto=format&fit=crop",
-        url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4"
+        url: "https://www.w3schools.com/html/mov_bbb.mp4"
       }
     ],
     technologies: ["Meta Lead Generation Ads", "LinkedIn B2B Ads", "Video Showreels", "CRM Lead Integration", "Landing Page CRO"],
     client: "Celebration Crafters Event Management",
     year: "2026",
-    liveUrl: "https://example.com/event-organizer-marketing",
+    liveUrl: "",
     featured: true
   }
 ];

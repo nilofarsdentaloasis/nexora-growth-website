@@ -4198,10 +4198,10 @@ section[id] {
 .project-modal-backdrop {
   position: fixed;
   inset: 0;
-  background-color: rgba(10, 10, 14, 0.85);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  z-index: 3000;
+  background-color: rgba(10, 10, 14, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 99999 !important;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -5445,17 +5445,123 @@ section[id] {
     gap: 12px !important;
   }
 
+  .project-modal-backdrop {
+    padding: 8px !important;
+    align-items: flex-end !important;
+  }
+
   .project-modal-container {
-    max-height: 94vh;
-    border-radius: 16px;
+    max-height: 92vh !important;
+    border-radius: 20px 20px 14px 14px !important;
+    width: 100% !important;
+    -webkit-overflow-scrolling: touch !important;
   }
 
   .project-modal-header {
-    padding: 18px 20px 14px;
+    padding: 14px 16px !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    justify-content: space-between !important;
+  }
+
+  .project-modal-title {
+    font-size: 18px !important;
+    line-height: 1.3 !important;
+  }
+
+  .project-modal-badges {
+    gap: 6px !important;
+    margin-bottom: 6px !important;
+  }
+
+  .project-category-badge {
+    font-size: 10.5px !important;
+    padding: 3px 9px !important;
+  }
+
+  .project-tag-badge {
+    font-size: 10.5px !important;
+  }
+
+  .project-modal-close-btn {
+    width: 34px !important;
+    height: 34px !important;
+    font-size: 18px !important;
+    margin-left: 8px !important;
+    flex-shrink: 0 !important;
   }
 
   .project-modal-body {
-    padding: 18px 20px 24px;
+    padding: 14px 16px 24px !important;
+  }
+
+  .project-modal-media-wrap {
+    border-radius: 12px !important;
+    margin-bottom: 16px !important;
+  }
+
+  .project-modal-main-img {
+    max-height: 240px !important;
+  }
+
+  .project-modal-video {
+    max-height: 240px !important;
+  }
+
+  .project-modal-gallery {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 8px !important;
+    margin-bottom: 16px !important;
+  }
+
+  .project-modal-gallery-img {
+    height: 68px !important;
+    border-radius: 8px !important;
+  }
+
+  .project-modal-description {
+    font-size: 13.5px !important;
+    line-height: 1.55 !important;
+    margin-bottom: 16px !important;
+  }
+
+  .project-modal-meta-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 10px !important;
+    padding: 12px 14px !important;
+    border-radius: 12px !important;
+    margin-bottom: 16px !important;
+  }
+
+  .project-meta-item-label {
+    font-size: 10px !important;
+  }
+
+  .project-meta-item-value {
+    font-size: 12.5px !important;
+  }
+
+  .project-modal-tech-list {
+    gap: 6px !important;
+    margin-bottom: 20px !important;
+  }
+
+  .tech-badge {
+    font-size: 11.5px !important;
+    padding: 4px 10px !important;
+  }
+
+  .project-modal-footer {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 10px !important;
+  }
+
+  .project-modal-footer .primary-button {
+    width: 100% !important;
+    justify-content: center !important;
+    text-align: center !important;
+    padding: 12px 20px !important;
   }
 }
 
@@ -5974,24 +6080,229 @@ section[id] {
 
 @media (max-width: 768px) {
   .field-modal-backdrop {
-    padding: 12px;
+    padding: 8px !important;
+    align-items: flex-end !important;
   }
+
   .field-modal-dialog {
-    max-height: 94vh;
-    border-radius: 18px;
+    max-height: 92vh !important;
+    border-radius: 20px 20px 14px 14px !important;
+    width: 100% !important;
+    -webkit-overflow-scrolling: touch !important;
   }
+
   .field-modal-header {
-    padding: 16px 18px;
+    display: grid !important;
+    grid-template-columns: 1fr auto !important;
+    align-items: center !important;
+    gap: 10px 8px !important;
+    padding: 14px 16px !important;
   }
-  .field-modal-body {
-    padding: 18px;
+
+  .field-modal-title-group {
+    grid-column: 1 !important;
+    gap: 10px !important;
   }
+
+  .field-modal-icon {
+    width: 36px !important;
+    height: 36px !important;
+    font-size: 18px !important;
+    border-radius: 10px !important;
+  }
+
+  .field-modal-title {
+    font-size: 17px !important;
+    line-height: 1.2 !important;
+  }
+
+  .field-modal-count-badge {
+    font-size: 10.5px !important;
+    padding: 2px 8px !important;
+  }
+
+  .field-modal-close-btn {
+    grid-column: 2 !important;
+    width: 34px !important;
+    height: 34px !important;
+    font-size: 18px !important;
+  }
+
   .field-modal-nav-tabs {
-    order: 3;
-    width: 100%;
+    grid-column: 1 / span 2 !important;
+    width: 100% !important;
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    padding: 4px !important;
+    gap: 4px !important;
   }
+
+  .field-modal-nav-tabs::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .field-modal-tab-pill {
+    padding: 6px 12px !important;
+    font-size: 11.5px !important;
+    flex-shrink: 0 !important;
+    white-space: nowrap !important;
+  }
+
+  .field-modal-body {
+    padding: 14px 14px 24px !important;
+  }
+
+  .field-live-showcase {
+    padding: 14px !important;
+    border-radius: 14px !important;
+    margin-bottom: 20px !important;
+  }
+
+  .field-live-card {
+    padding: 14px !important;
+    border-radius: 12px !important;
+  }
+
+  .field-live-name {
+    font-size: 16px !important;
+  }
+
+  .field-live-desc {
+    font-size: 12.5px !important;
+  }
+
+  .field-projects-header-title {
+    font-size: 17px !important;
+  }
+
   .field-live-grid, .field-projects-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
   }
 }
+
+/* ==========================================================================
+   ALIVE SCROLL-DRIVEN ANIMATIONS
+   ========================================================================== */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-on-scroll.is-revealed {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+/* Staggered cascading child delays */
+.stagger-1 { transition-delay: 0.08s; }
+.stagger-2 { transition-delay: 0.16s; }
+.stagger-3 { transition-delay: 0.24s; }
+.stagger-4 { transition-delay: 0.32s; }
+.stagger-5 { transition-delay: 0.40s; }
+.stagger-6 { transition-delay: 0.48s; }
+
+/* Subtle awake aura on revealed cards */
+.is-revealed.alive-card {
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-on-scroll {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* ==========================================================================
+   SEAMLESS GRADIENT COLOR BLENDS BETWEEN SECTIONS
+   (No sharp lines, organic transitions)
+   ========================================================================== */
+
+/* 1. Hero -> Company Ticker: Smooth dark into light gradient dissolve */
+.hero {
+  border-bottom: none !important;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: linear-gradient(to bottom, transparent 0%, rgba(11, 15, 25, 0.3) 30%, rgba(255, 255, 255, 0.6) 80%, #ffffff 100%);
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* 2. Company Section -> Services: Smooth blend from white into dark navy */
+.company-section {
+  background: linear-gradient(180deg, #ffffff 0%, #ffffff 70%, #f1f5f9 88%, #141b2c 98%, #0c0f18 100%) !important;
+  border-top: none !important;
+  border-bottom: none !important;
+}
+
+/* 3. Services -> Portfolio (Projects): Smooth dissolve from dark into white */
+.section.services {
+  position: relative;
+  background: linear-gradient(180deg, #0c0f18 0%, #0b0f19 80%, #0c0f18 100%) !important;
+}
+
+.section.services::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: linear-gradient(to bottom, transparent 0%, rgba(12, 15, 24, 0.4) 30%, rgba(255, 255, 255, 0.7) 85%, #ffffff 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* 4. Portfolio -> About Us -> Why Us: Ambient soft depth mesh */
+.section.portfolio {
+  background: radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.05), transparent 70%), #ffffff !important;
+  border-top: none !important;
+  border-bottom: none !important;
+}
+
+.section.about-us {
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 18%, #f8fafc 82%, #ffffff 100%) !important;
+  border-top: none !important;
+  border-bottom: none !important;
+}
+
+.section.why-us {
+  border-top: none !important;
+  border-bottom: none !important;
+  background: linear-gradient(180deg, #ffffff 0%, #ffffff 75%, #f1f5f9 88%, #151e33 97%, #0f172a 100%) !important;
+  position: relative;
+}
+
+/* 5. Working Process -> CTA: Smooth dark into white */
+.pin-outer {
+  background: linear-gradient(180deg, #0f172a 0%, #0f172a 90%, #172238 96%, #ffffff 100%) !important;
+  position: relative;
+}
+
+/* 6. CTA -> Footer: Smooth blend from white into deep navy */
+.section.cta {
+  background: linear-gradient(180deg, #ffffff 0%, #ffffff 70%, #f1f5f9 86%, #121827 96%, #0b0f19 100%) !important;
+  border-bottom: none !important;
+}
+
+.section.footer {
+  border-top: none !important;
+  background-color: #0b0f19 !important;
+}
+
 

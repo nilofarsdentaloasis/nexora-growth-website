@@ -311,8 +311,15 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && fieldModalBackdrop && fieldModalBackdrop.classList.contains('active')) {
-      closeFieldModal();
+    if (e.key === 'Escape') {
+      if (modalBackdrop && modalBackdrop.classList.contains('active')) {
+        closeProjectModal();
+        e.stopPropagation();
+        return;
+      }
+      if (fieldModalBackdrop && fieldModalBackdrop.classList.contains('active')) {
+        closeFieldModal();
+      }
     }
   });
 
@@ -448,21 +455,30 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // Media Showcase (Video or Image) - Lazy Loaded
+    // Media Showcase (Video or Image) - With Fail-safe fallback
     if (modalMediaContainer) {
       modalMediaContainer.innerHTML = '';
       if (project.videos && project.videos.length > 0) {
         const videoData = project.videos[0];
-        modalMediaContainer.innerHTML = `
-          <video class="project-modal-video" controls playsinline preload="metadata" poster="${videoData.poster}">
-            <source src="${videoData.url}" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-        `;
+        const vEl = document.createElement('video');
+        vEl.className = 'project-modal-video';
+        vEl.controls = true;
+        vEl.playsInline = true;
+        vEl.preload = 'metadata';
+        vEl.poster = videoData.poster || '';
+        vEl.src = videoData.url;
+        vEl.onerror = () => {
+          // If video cannot stream, smoothly fallback to high-resolution project visual
+          const fallbackImg = (project.images && project.images.length > 0) ? project.images[0] : project.thumbnail;
+          modalMediaContainer.innerHTML = `
+            <img src="${escapeHTML(fallbackImg)}" alt="${escapeHTML(project.title)}" class="project-modal-main-img" onerror="this.onerror=null; this.src='images/hero-visual.jpg'">
+          `;
+        };
+        modalMediaContainer.appendChild(vEl);
       } else {
         const heroImg = (project.images && project.images.length > 0) ? project.images[0] : project.thumbnail;
         modalMediaContainer.innerHTML = `
-          <img src="${heroImg}" alt="${escapeHTML(project.title)}" class="project-modal-main-img" id="modal-active-img" loading="lazy">
+          <img src="${escapeHTML(heroImg)}" alt="${escapeHTML(project.title)}" class="project-modal-main-img" id="modal-active-img" loading="lazy" onerror="this.onerror=null; this.src='images/hero-visual.jpg'">
         `;
       }
     }
@@ -477,10 +493,11 @@ document.addEventListener('DOMContentLoaded', () => {
           gImg.alt = `${project.title} screenshot`;
           gImg.className = 'project-modal-gallery-img';
           gImg.loading = 'lazy';
+          gImg.onerror = function() { this.style.display = 'none'; };
           gImg.addEventListener('click', () => {
             // Swap main media view to this image
             modalMediaContainer.innerHTML = `
-              <img src="${imgUrl}" alt="${escapeHTML(project.title)}" class="project-modal-main-img" id="modal-active-img">
+              <img src="${imgUrl}" alt="${escapeHTML(project.title)}" class="project-modal-main-img" id="modal-active-img" onerror="this.onerror=null; this.src='images/hero-visual.jpg'">
             `;
           });
           modalGalleryContainer.appendChild(gImg);
@@ -488,23 +505,22 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // Live link button
+    // Live link button / WhatsApp Demo Request
     if (modalLiveLink) {
-      if (project.liveUrl && project.liveUrl !== '#') {
-        modalLiveLink.style.display = 'inline-block';
+      if (project.liveUrl && project.liveUrl !== '#' && !project.liveUrl.includes('example.com')) {
+        modalLiveLink.style.display = 'inline-flex';
         modalLiveLink.href = project.liveUrl;
         modalLiveLink.target = '_blank';
         modalLiveLink.rel = 'noopener noreferrer';
-        
-        const btnSpans = modalLiveLink.querySelectorAll('.primary-button-text-block');
-        const linkLabel = project.liveUrl.includes('youtube.com') ? 'Watch on YouTube Channel' : 'Visit Live Project';
-        if (btnSpans.length > 0) {
-          btnSpans.forEach(span => span.textContent = linkLabel);
-        } else {
-          modalLiveLink.textContent = linkLabel;
-        }
+        const linkLabel = project.liveUrl.includes('youtube.com') ? 'Watch on YouTube ↗' : 'Launch Live Website ↗';
+        modalLiveLink.innerHTML = `<span class="primary-button-text-block">${linkLabel}</span>`;
       } else {
-        modalLiveLink.style.display = 'none';
+        // Direct WhatsApp system demo request
+        modalLiveLink.style.display = 'inline-flex';
+        modalLiveLink.href = `https://wa.me/918180073765?text=${encodeURIComponent('Hi Nexora Growth, I would like to explore the architecture and request a live demo for: ' + project.title)}`;
+        modalLiveLink.target = '_blank';
+        modalLiveLink.rel = 'noopener noreferrer';
+        modalLiveLink.innerHTML = `<span class="primary-button-text-block">Request Live System Demo ↗</span>`;
       }
     }
 
@@ -525,7 +541,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     modalBackdrop.classList.remove('active');
-    document.body.style.overflow = '';
+    
+    // If field modal is open beneath it, retain overflow hidden
+    if (fieldModalBackdrop && fieldModalBackdrop.classList.contains('active')) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
   }
 
   if (modalCloseBtn) {
@@ -539,12 +561,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modalBackdrop && modalBackdrop.classList.contains('active')) {
-      closeProjectModal();
-    }
-  });
 
   // Helper function for HTML escaping
   function escapeHTML(str) {
@@ -954,7 +970,74 @@ document.addEventListener('DOMContentLoaded', () => {
     observer.observe(aboutSection);
   }
 
+  // --- Universal Image Safety Net ---
+  function initUniversalImageSafety() {
+    const images = document.querySelectorAll('img');
+    images.forEach(img => {
+      img.addEventListener('error', function() {
+        if (!this.getAttribute('data-has-fallback')) {
+          this.setAttribute('data-has-fallback', 'true');
+          this.src = 'images/hero-visual.jpg';
+        }
+      });
+    });
+  }
+
+  // --- Alive Scroll-Driven Animations Engine ---
+  function initAliveScrollAnimations() {
+    // Automatically select section components to animate alive on scroll
+    const autoSelectors = [
+      '.section-title-wrapper',
+      '.company-subtitle-wrapper',
+      '.sponsors-ticker-wrapper',
+      '.service-tabs-header',
+      '.service-tabs-grid',
+      '.services-single-wrapper',
+      '.why-us-header-row',
+      '.why-us-slider-wrap',
+      '.process-section-header',
+      '.process-widget',
+      '.cta-wrapper',
+      '.footer-content'
+    ];
+
+    autoSelectors.forEach(sel => {
+      document.querySelectorAll(sel).forEach((el, idx) => {
+        if (!el.classList.contains('reveal-on-scroll')) {
+          el.classList.add('reveal-on-scroll');
+          if (idx > 0 && el.parentElement && el.parentElement.children.length > 1) {
+            el.classList.add('stagger-' + Math.min(idx, 6));
+          }
+        }
+      });
+    });
+
+    const revealTargets = document.querySelectorAll('.reveal-on-scroll');
+    if (!revealTargets.length) return;
+
+    if (!('IntersectionObserver' in window)) {
+      revealTargets.forEach(el => el.classList.add('is-revealed'));
+      return;
+    }
+
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-revealed');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.10,
+      rootMargin: '0px 0px -40px 0px'
+    });
+
+    revealTargets.forEach(target => observer.observe(target));
+  }
+
   initHero();
   initAboutAnimations();
+  initAliveScrollAnimations();
+  initUniversalImageSafety();
 });
 
