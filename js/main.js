@@ -643,24 +643,24 @@ document.addEventListener('DOMContentLoaded', () => {
       const isMobile = window.innerWidth <= 767;
 
       if (isMobile) {
-        // --- Mobile: Words complete display early, animation stops there, and user scrolls further ---
-        const entryT = smooth(0.02, 0.32, p);
-        const textT  = smooth(0.08, 0.34, p);
+        // --- Mobile: Paced comfortably so the scroll animation feels smooth and unhurried ---
+        const entryT = smooth(0.04, 0.52, p);
+        const textT  = smooth(0.12, 0.58, p);
 
-        // "that matters" enters and reveals completely by p = 0.34
+        // "that matters" enters gracefully and finishes by p = 0.58
         wipe.style.opacity = entryT;
-        wipe.style.transform = `translateY(${(1 - entryT) * 14}px)`;
-        wipe.style.maxWidth = entryT >= 0.32 ? 'none' : `${entryT * wipeNaturalWidth}px`;
+        wipe.style.transform = `translateY(${(1 - entryT) * 16}px)`;
+        wipe.style.maxWidth = entryT >= 0.52 ? 'none' : `${entryT * wipeNaturalWidth}px`;
         fill.style.width = (textT * 100) + '%';
         row.style.transform = 'none';
 
-        // Pill & Asterisk complete their rotation and morph by p = 0.34
-        const morphT = smooth(0.02, 0.26, p);
+        // Pill & Asterisk complete their rotation and morph smoothly
+        const morphT = smooth(0.04, 0.44, p);
         const circleSize = pill.getBoundingClientRect().height;
         const width = lerp(baseWidth, circleSize, morphT);
         pill.style.width = width + 'px';
 
-        const bgT = smooth(0.12, 0.30, p);
+        const bgT = smooth(0.16, 0.48, p);
         if (bgT > 0) {
           if (window.CSS && CSS.supports && CSS.supports('color', 'color-mix(in srgb, black, white)')) {
             pill.style.backgroundColor = `color-mix(in srgb, #0f172a ${bgT * 100}%, #f1f2f6)`;
@@ -672,11 +672,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         asterisk.style.color = bgT > 0.5 ? '#ffffff' : '#0f172a';
-        asterisk.style.transform = `rotate(${Math.min(p / 0.34, 1) * 360}deg)`;
+        asterisk.style.transform = `rotate(${Math.min(p / 0.58, 1) * 360}deg)`;
 
-        // Fade scroll hint early
+        // Fade scroll hint once scrolling starts
         if (hint) {
-          hint.style.opacity = p < 0.03 ? '1' : '0';
+          hint.style.opacity = p < 0.05 ? '1' : '0';
         }
       } else {
         // Desktop view: natural flow with smooth text wipe

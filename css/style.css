@@ -3704,14 +3704,14 @@ button, input, textarea {
     display: flex;
   }
 
-  /* --- Mobile Scroll Hero: Reduced Padding & Doubled Font Size --- */
+  /* --- Mobile Scroll Hero: Comfortable Pacing, Reduced Padding & Doubled Font Size --- */
   .scroll-hero-stage {
-    height: 150vh !important;
+    height: 250vh !important; /* Smooth comfortable scroll travel distance */
   }
 
   .scroll-hero-sticky {
-    height: 60vh !important;
-    min-height: 320px !important;
+    height: 65vh !important;
+    min-height: 330px !important;
     padding-top: 70px !important;
     padding-bottom: 10px !important;
   }
