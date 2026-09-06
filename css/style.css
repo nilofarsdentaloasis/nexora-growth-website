@@ -1855,15 +1855,20 @@ section[id] {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 20px;
-  margin-bottom: 12px;
+  text-align: center;
+  gap: 16px;
+  max-width: 860px;
+  margin: 0 auto 12px;
+  padding: 0 16px;
+  width: 100%;
 }
 
 .company-subtitle-line {
   height: 1.5px;
   flex: 1;
-  max-width: 100px;
+  max-width: 70px;
   background-color: rgba(15, 23, 42, 0.18);
+  flex-shrink: 1;
 }
 
 .company-subtitle {
@@ -1872,6 +1877,9 @@ section[id] {
   color: #0f172a;
   text-transform: uppercase;
   letter-spacing: 0.08em;
+  text-align: center !important;
+  line-height: 1.4;
+  margin: 0;
 }
 
 .sponsors-ticker-wrapper {
@@ -5184,6 +5192,29 @@ section[id] {
     bottom: 20px !important;
   }
 
+  /* Company capabilities title: strictly centered on mobile */
+  .company-subtitle-wrapper {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    gap: 8px !important;
+    padding: 0 12px !important;
+    margin: 0 auto 10px !important;
+  }
+
+  .company-subtitle-line {
+    max-width: 20px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .company-subtitle {
+    font-size: 11px !important;
+    letter-spacing: 0.05em !important;
+    text-align: center !important;
+    line-height: 1.35 !important;
+    width: auto !important;
+  }
 
   .connect-btn-icon {
     font-size: 13px;
